@@ -11,7 +11,6 @@ These days, most technology—and many everyday—services run on subscriptions.
 
 SubTrack brings all your subscriptions into one place so you can track them effortlessly and see your spending clearly. With built-in AI insights, SubTrack helps you spot overlaps, identify waste, and prioritize the services that truly deliver value—so you can optimize costs without losing what matters.
 
-
 ## 🔻 Smallest set of features
 
 - Create, save, view, edit, and delete subscriptions, displayed as easy-to-scan cards in your subscription library
@@ -26,16 +25,17 @@ SubTrack brings all your subscriptions into one place so you can track them effo
 - Share your subscription library with other users for collaborative access and visibility
 - Enable social features for discovery, recommendations, and shared subscription planning
 
-## 🔻 Success Criteria 
+## 🔻 Success Criteria
 
 - The user can register and log in and can only see their own data (no access to other users’ subscriptions).Jesteś doświadczonym menedżerem produktu
 - The user can add at least 5 subscriptions.
 - Full CRUD works end-to-end: create/edit/delete a subscription, and the change is visible in the UI.
 - The dashboard correctly displays the total monthly and yearly cost for at least two billing cycles: monthly and yearly.
 - AI generates at least 1 recommendations (overlaps/duplicates + optimization) for a test set of 5+ subscriptions.
-</project-idea>
+  </project-idea>
 
 I'm a developer analyzing a project idea that I'll be working on as part of the 10xDevs course. I'm interested in analysis based on the following criteria:
+
 1. Does the application solve a real problem?
 2. Can the application focus on 1-2 key features?
 3. Am I able to implement this idea within 6 weeks working on it after hours with AI?

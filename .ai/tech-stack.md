@@ -1,6 +1,7 @@
 <tech-stack>
 
 Frontend:
+
 - Astro 5
 - React 19
 - Typescript 5
@@ -8,12 +9,15 @@ Frontend:
 - Shadcn/ui
 
 Backend and database:
+
 - Supabase
 
 AI comunication:
+
 - Openrouter.ai
 
 CI/CD and Hosting:
+
 - Github Actions
 - Digital Ocean
 

@@ -5,6 +5,7 @@
 You are an experienced product manager whose task is to create a comprehensive Product Requirements Document (PRD) based on the following descriptions:
 
 <project_description>
+
 # App - Subbase (MVP)
 
 ## 🔻 Main Problem
@@ -12,7 +13,6 @@ You are an experienced product manager whose task is to create a comprehensive P
 These days, most technology—and many everyday—services run on subscriptions. Over time, it's easy to lose track of how many accounts we have, how much we're actually spending, whether we're paying for duplicate tools, or even whether we're still subscribed at all.
 
 Subbase brings all your subscriptions into one place so you can track them effortlessly and see your spending clearly. With built-in AI insights, Subbase helps you spot overlaps, identify waste, and prioritize the services that truly deliver value—so you can optimize costs without losing what matters.
-
 
 ## 🔻 Smallest set of features
 
@@ -24,12 +24,14 @@ Subbase brings all your subscriptions into one place so you can track them effor
 ## 🔻 What's NOT included in an MVP?
 
 ### Collaboration & Social
+
 - Share your subscription library with other users for collaborative access and visibility
 - Enable social features for discovery, recommendations, and shared subscription planning
 - Family/team subscription management
 - Public profiles or subscription showcases
 
 ### Financial Features
+
 - Multiple currency support and automatic conversion
 - Bank/credit card integration for automatic subscription detection
 - Payment method tracking (which card is used for what)
@@ -38,12 +40,14 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Export to CSV/PDF for accounting
 
 ### Notifications & Reminders
+
 - Email/push notifications before renewal dates
 - Cancellation deadline reminders
 - Price change alerts
 - Free trial expiration warnings
 
 ### Advanced Organization
+
 - Custom categories and tags for subscriptions
 - Search and filtering functionality
 - Sorting options (by price, date, name, etc.)
@@ -51,6 +55,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Subscription notes or annotations
 
 ### UI/UX Enhancements
+
 - Dark mode / theme customization
 - Mobile-responsive design (beyond basic)
 - Drag-and-drop reordering
@@ -58,6 +63,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Data visualization (charts, graphs, pie charts)
 
 ### Advanced AI Features
+
 - Automatic subscription detection from email parsing
 - Personalized cancellation suggestions based on usage patterns
 - Price comparison with alternative services
@@ -68,6 +74,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Custom prompt configuration
 
 ### Technical Features
+
 - Offline mode / PWA support
 - Multiple languages (i18n)
 - Account settings (change email, password, delete account)
@@ -161,6 +168,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 ### Core Features (MVP)
 
 #### 1. User Authentication
+
 - Simple email/password registration and login
 - No email verification required
 - Persistent sessions (7-30 day expiration) using secure HTTP-only cookies
@@ -168,6 +176,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Users can only access their own subscription data
 
 #### 2. Subscription Management (CRUD)
+
 - **Create:** Modal form with fields for name (required), price (required, positive number), billing frequency (monthly/yearly), renewal date (valid date format), logo URL (optional)
 - **Read:** Subscription cards displaying name (prominent), price with frequency label (e.g., "$9.99/mo"), renewal date (secondary), and logo if provided
 - **Update:** Edit via same modal form pattern
@@ -175,12 +184,14 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Real-time UI updates after any CRUD operation
 
 #### 3. Dashboard
+
 - Monthly and yearly total subscription costs displayed prominently at top
 - Subscription cards below serve as the breakdown/detail view
 - Calculation example: 3× monthly $10 + 1× yearly $120 = Monthly: $30, Yearly: $480
 - Single user-selectable currency (stored in profile)
 
 #### 4. AI-Powered Analysis
+
 - Single "Analyze my subscriptions" button
 - Sends subscription names, prices, and billing frequencies to OpenAI API (GPT-3.5-turbo)
 - Returns 1-3 brief, actionable suggestions in a slide-out panel
@@ -194,18 +205,21 @@ Subbase brings all your subscriptions into one place so you can track them effor
 ## User Interface Requirements
 
 ### Design Direction
+
 - Minimal/clean aesthetic with colorful accent
 - One accent color (vibrant purple, teal, or coral) for CTAs, active states, highlights
 - Neutral grays for all other elements
 - Card-based layout for subscriptions
 
 ### Key UI States
+
 - **Empty State:** Friendly illustration/icon, "No subscriptions yet" message, prominent "Add your first subscription" button
 - **Loading State:** Spinner or skeleton cards while fetching subscriptions
 - **Error State:** Toast notification with error message and retry option
 - **AI Loading:** "Analyzing..." text with spinner in slide-out panel
 
 ### Components
+
 - Modal for Add/Edit subscription forms
 - Confirmation modal for delete actions
 - Slide-out panel for AI analysis results
@@ -217,11 +231,13 @@ Subbase brings all your subscriptions into one place so you can track them effor
 ## User Stories
 
 ### Authentication
+
 - As a new user, I can register with my email and password to create an account
 - As a returning user, I can log in and remain logged in across browser sessions
 - As a logged-in user, I can log out from the user menu
 
 ### Subscription Management
+
 - As a user, I can add a new subscription by filling out a modal form
 - As a user, I can view all my subscriptions as cards showing key information
 - As a user, I can edit any subscription's details through a modal form
@@ -229,6 +245,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - As a new user with no subscriptions, I see a friendly empty state guiding me to add my first subscription
 
 ### Dashboard & Insights
+
 - As a user, I can see my total monthly and yearly subscription costs at the top of the dashboard
 - As a user, I can click "Analyze my subscriptions" to receive AI-powered insights
 - As a user, I can view AI suggestions in a slide-out panel
@@ -323,6 +340,7 @@ Follow these steps to create a comprehensive and well-organized document:
    - Ensure that each user story is testable.
 
 Use the following structure for each user story:
+
 - ID
 - Title
 - Description
@@ -336,7 +354,7 @@ Use the following structure for each user story:
 
 5. PRD Formatting:
    - Maintain consistent formatting and numbering.
-   - Do not use bold formatting in markdown ( ** ).
+   - Do not use bold formatting in markdown ( \*\* ).
    - List ALL user stories.
    - Format the PRD in proper markdown.
 
@@ -344,11 +362,17 @@ Prepare the PRD with the following structure:
 
 ```markdown
 # Product Requirements Document (PRD) - {{app-name}}
+
 ## 1. Product Overview
+
 ## 2. User Problem
+
 ## 3. Functional Requirements
+
 ## 4. Product Boundaries
+
 ## 5. User Stories
+
 ## 6. Success Metrics
 ```
 
@@ -356,27 +380,26 @@ Remember to fill each section with detailed, relevant information based on the p
 
 The final output should consist solely of the PRD in the specified markdown format, which you will save in the file .ai/prd.md
 
-
 ### 3.2 Subscription Data Model
 
 Each subscription record contains the following fields:
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | UUID/Integer | Yes (auto) | Unique identifier |
-| user_id | UUID/Integer | Yes (auto) | Reference to owning user |
-| name | String | Yes | Name of the subscription service |
-| price | Decimal | Yes | Cost of the subscription (positive number) |
-| billing_frequency | Enum | Yes | Either "monthly" or "yearly" |
-| renewal_date | Date | Yes | Next renewal date |
-| logo_url | String | No | Optional URL to service logo image |
-| created_at | Timestamp | Yes (auto) | Record creation timestamp |
-| updated_at | Timestamp | Yes (auto) | Last update timestamp |
-
+| Field             | Type         | Required   | Description                                |
+| ----------------- | ------------ | ---------- | ------------------------------------------ |
+| id                | UUID/Integer | Yes (auto) | Unique identifier                          |
+| user_id           | UUID/Integer | Yes (auto) | Reference to owning user                   |
+| name              | String       | Yes        | Name of the subscription service           |
+| price             | Decimal      | Yes        | Cost of the subscription (positive number) |
+| billing_frequency | Enum         | Yes        | Either "monthly" or "yearly"               |
+| renewal_date      | Date         | Yes        | Next renewal date                          |
+| logo_url          | String       | No         | Optional URL to service logo image         |
+| created_at        | Timestamp    | Yes (auto) | Record creation timestamp                  |
+| updated_at        | Timestamp    | Yes (auto) | Last update timestamp                      |
 
 STACK
 
 Frontend - Astro with React dla komponentów interaktywnych:
+
 - Astro 5 pozwala na tworzenie szybkich, wydajnych stron i aplikacji z minimalną ilością JavaScript
 - React 19 zapewni interaktywność tam, gdzie jest potrzebna
 - TypeScript 5 dla statycznego typowania kodu i lepszego wsparcia IDE
@@ -384,15 +407,18 @@ Frontend - Astro with React dla komponentów interaktywnych:
 - Shadcn/ui zapewnia bibliotekę dostępnych komponentów React, na których oprzemy UI
 
 Backend - Supabase jako kompleksowe rozwiązanie backendowe:
+
 - Zapewnia bazę danych PostgreSQL
 - Zapewnia SDK w wielu językach, które posłużą jako Backend-as-a-Service
 - Jest rozwiązaniem open source, które można hostować lokalnie lub na własnym serwerze
 - Posiada wbudowaną autentykację użytkowników
 
 AI - Komunikacja z modelami przez usługę Openrouter.ai:
+
 - Dostęp do szerokiej gamy modeli (OpenAI, Anthropic, Google i wiele innych), które pozwolą nam znaleźć rozwiązanie zapewniające wysoką efektywność i niskie koszta
 - Pozwala na ustawianie limitów finansowych na klucze API
 
 CI/CD i Hosting:
+
 - Github Actions do tworzenia pipeline’ów CI/CD
 - DigitalOcean do hostowania aplikacji za pośrednictwem obrazu docker

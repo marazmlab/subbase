@@ -10,7 +10,6 @@ These days, most technology—and many everyday—services run on subscriptions.
 
 Subbase brings all your subscriptions into one place so you can track them effortlessly and see your spending clearly. With built-in AI insights, Subbase helps you spot overlaps, identify waste, and prioritize the services that truly deliver value—so you can optimize costs without losing what matters.
 
-
 ## 🔻 Smallest set of features
 
 - Subscription CRUD: add, view, edit, and delete subscriptions displayed as easy-to-scan cards
@@ -21,12 +20,14 @@ Subbase brings all your subscriptions into one place so you can track them effor
 ## 🔻 What's NOT included in an MVP?
 
 ### Collaboration & Social
+
 - Share your subscription library with other users for collaborative access and visibility
 - Enable social features for discovery, recommendations, and shared subscription planning
 - Family/team subscription management
 - Public profiles or subscription showcases
 
 ### Financial Features
+
 - Multiple currency support and automatic conversion
 - Bank/credit card integration for automatic subscription detection
 - Payment method tracking (which card is used for what)
@@ -35,12 +36,14 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Export to CSV/PDF for accounting
 
 ### Notifications & Reminders
+
 - Email/push notifications before renewal dates
 - Cancellation deadline reminders
 - Price change alerts
 - Free trial expiration warnings
 
 ### Advanced Organization
+
 - Custom categories and tags for subscriptions
 - Search and filtering functionality
 - Sorting options (by price, date, name, etc.)
@@ -48,6 +51,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Subscription notes or annotations
 
 ### UI/UX Enhancements
+
 - Dark mode / theme customization
 - Mobile-responsive design (beyond basic)
 - Drag-and-drop reordering
@@ -55,6 +59,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Data visualization (charts, graphs, pie charts)
 
 ### Advanced AI Features
+
 - Automatic subscription detection from email parsing
 - Personalized cancellation suggestions based on usage patterns
 - Price comparison with alternative services
@@ -65,6 +70,7 @@ Subbase brings all your subscriptions into one place so you can track them effor
 - Custom prompt configuration
 
 ### Technical Features
+
 - Offline mode / PWA support
 - Multiple languages (i18n)
 - Account settings (change email, password, delete account)
