@@ -9,7 +9,15 @@
     "astro": "astro",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:init": "supabase init",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:status": "supabase status",
+    "open:studio": "start http://127.0.0.1:54323",
+    "open:mail": "start http://127.0.0.1:54324",
+    "open:api": "start http://127.0.0.1:54321"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.3",
@@ -47,6 +55,7 @@
     "husky": "9.1.7",
     "lint-staged": "15.5.0",
     "prettier-plugin-astro": "0.14.1",
+    "supabase": "^2.72.7",
     "typescript-eslint": "8.28.0"
   },
   "lint-staged": {
