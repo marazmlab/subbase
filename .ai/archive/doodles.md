@@ -396,7 +396,7 @@ Each subscription record contains the following fields:
 | created_at        | Timestamp    | Yes (auto) | Record creation timestamp                  |
 | updated_at        | Timestamp    | Yes (auto) | Last update timestamp                      |
 
-STACK
+### STACK
 
 Frontend - Astro with React dla komponentów interaktywnych:
 
@@ -408,17 +408,58 @@ Frontend - Astro with React dla komponentów interaktywnych:
 
 Backend - Supabase jako kompleksowe rozwiązanie backendowe:
 
-- Zapewnia bazę danych PostgreSQL
-- Zapewnia SDK w wielu językach, które posłużą jako Backend-as-a-Service
-- Jest rozwiązaniem open source, które można hostować lokalnie lub na własnym serwerze
-- Posiada wbudowaną autentykację użytkowników
+  - Zapewnia bazę danych PostgreSQL
+  - Zapewnia SDK w wielu językach, które posłużą jako Backend-as-a-Service
+  - Jest rozwiązaniem open source, które można hostować lokalnie lub na własnym serwerze
+  - Posiada wbudowaną autentykację użytkowników
 
 AI - Komunikacja z modelami przez usługę Openrouter.ai:
 
-- Dostęp do szerokiej gamy modeli (OpenAI, Anthropic, Google i wiele innych), które pozwolą nam znaleźć rozwiązanie zapewniające wysoką efektywność i niskie koszta
-- Pozwala na ustawianie limitów finansowych na klucze API
+  - Dostęp do szerokiej gamy modeli (OpenAI, Anthropic, Google i wiele innych), które pozwolą nam znaleźć rozwiązanie zapewniające wysoką efektywność i niskie koszta
+  - Pozwala na ustawianie limitów finansowych na klucze API
 
 CI/CD i Hosting:
 
-- Github Actions do tworzenia pipeline’ów CI/CD
-- DigitalOcean do hostowania aplikacji za pośrednictwem obrazu docker
+  - Github Actions do tworzenia pipeline’ów CI/CD
+  - DigitalOcean do hostowania aplikacji za pośrednictwem obrazu docker
+
+
+
+### DATABASE #1
+
+1. apply recomendation
+2. apply recomendation, but explain difference between id and user_id
+3. apply recomendation
+4. apply recomendation
+5. apply recomendation
+6. apply recomendation
+7. apply recomendation
+8. apply recomendation
+9. apply recomendation
+10. apply recomendation
+
+### DATABASE #2
+   
+11. apply recomendation
+12. apply recomendation
+13. apply recomendation
+14. apply recomendation
+15. apply recomendation
+16. apply recomendation
+17. apply recomendation
+18. apply recomendation
+19. apply recomendation
+20. apply recomendation
+
+### DATABASE #3
+
+21. apply recomendation
+22. apply recomendation
+23. apply recomendation
+24. apply recomendation
+25. apply recomendation
+26. apply recomendation
+27. apply recomendation
+28. apply recomendation
+29. apply recomendation
+30. apply recomendation
