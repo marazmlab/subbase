@@ -84,7 +84,7 @@ export interface CreateSubscriptionCommand {
   name: string;
   /** Cost amount (required, > 0 and ≤ 100000, max 2 decimal places) */
   cost: number;
-  /** ISO currency code (optional, default: PLN) */
+  /** ISO currency code, 3 characters (optional, default: PLN) */
   currency?: string;
   /** Billing frequency (required) */
   billing_cycle: BillingCycle;
@@ -107,7 +107,7 @@ export interface UpdateSubscriptionCommand {
   name: string;
   /** Cost amount (required, > 0 and ≤ 100000, max 2 decimal places) */
   cost: number;
-  /** ISO currency code (required) */
+  /** ISO currency code, 3 characters (required) */
   currency: string;
   /** Billing frequency (required) */
   billing_cycle: BillingCycle;

@@ -158,7 +158,7 @@ const subscriptionQuerySchema = z.object({
 const createSubscriptionSchema = z.object({
   name: z.string().min(1).max(255),
   cost: z.number().positive().max(100000).multipleOf(0.01),
-  currency: z.string().default("PLN"),
+  currency: z.string().length(3).default("PLN"),
   billing_cycle: z.enum(["monthly", "yearly"]),
   status: z.enum(["active", "paused", "cancelled"]).default("active"),
   start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -173,7 +173,7 @@ const createSubscriptionSchema = z.object({
 const updateSubscriptionSchema = z.object({
   name: z.string().min(1).max(255),
   cost: z.number().positive().max(100000).multipleOf(0.01),
-  currency: z.string(),
+  currency: z.string().length(3),
   billing_cycle: z.enum(["monthly", "yearly"]),
   status: z.enum(["active", "paused", "cancelled"]),
   start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
