@@ -463,3 +463,242 @@ CI/CD i Hosting:
 28. apply recomendation
 29. apply recomendation
 30. apply recomendation
+
+
+### UI Architecture Planning Assistant 
+
+## 1.1
+ 1. Chciałbym, żeby było prostsze:
+   - strona logowania/Supabase Auth
+   - chciałbym, żeby lista subskrypcji była widoczna jako dashboard ale nad nią żeby było widoczne podsumowanie kosztów
+   - dodawanie i edytowanie subskrypcji niech też znajduje się w samej liście poprzez przycisk, który uruchamia modal z dodawaniem/edytowanem subskrypcji
+   - Panelk AI Insights
+  Przedstaw za i przeciw takiemu rozwiązaniu
+ 2. apply recomendation - tak jak to napisałem w pkt. 1 
+ 3. Na początku chcemy korzystać z wbydowanego zarządzania stanem w React czyli hooków oraz react context. Jak zajdzie potrzeba pomyślimy nad innym rozwiązniem. Póki co nie chcę wprowadzać niepotrzebnej dużej ilości nowych technologi, których nie rozumiem.
+ 4. apply recomendation
+ 5. apply recomendation
+ 6. apply recomendation
+ 7. mieliśmy nie implementować filtorwania w MVP. Jeżeli lepiej nie pommijać tego w MVP uargumentuj za i przeciw.
+ 8. stosuj się do API plan
+ 9. apply recomendation
+ 10. apply recommendtation
+
+## 1.2
+   1. apply recomendation
+   2. OK
+   3. czy ręczne obsłużenie cache  invalidation to duży problem? Mogę rozważyć TanStackQuery, jeżeli się to opłaca. Wyjaśnij czym to jest
+   4. OK
+   5. OK
+   6. OK
+   7. apply recomendation
+   8. OK
+   9. OK
+   10. OK
+
+## 2
+   11. apply recomendation
+   12. apply recomendation
+   13. apply recomendation
+   
+## 3
+   zostajemy przy React hooks + Context
+
+   14. apply recomendation
+   15. apply recomendation
+   16. applly recomendation
+   17. apply recomendation
+   18. apply recomendation 
+
+## 4
+   zmiana decyzji nr.4 odnośnie wielowarstwowej obsłudze błędów. Dodamy to na późniejszym etapie, teraz skupiamy się na podstawowym UI
+   19. apply recomendation
+   20. apply recomendation
+   21. apply recomendation
+   22. wolałbym zająć się tym zagadnieniem później (chyba że rekomendujesz już teraz??)
+   23. apply recomendation
+   24. zajmiemy się tym później
+
+## 5. 
+   25. apply recomendation
+   26. n aten moment nie
+
+
+
+<conversation_summary>
+
+## Decisions
+
+1. **Uproszczona struktura widoków**: Aplikacja składa się z dwóch głównych widoków - strony logowania/rejestracji oraz dashboardu zawierającego wszystkie funkcjonalności (podsumowanie, lista, modal CRUD, panel AI).
+
+2. **Zarządzanie stanem**: React hooks + Context zamiast zewnętrznych bibliotek (np. TanStack Query). Ręczna obsługa cache invalidation przez re-fetch po mutacjach.
+
+3. **Obsługa błędów**: Podstawowa implementacja na start (try/catch, pojedynczy error state, przekierowanie na login przy 401). Wielowarstwowa obsługa błędów przesunięta na późniejszy etap.
+
+4. **Nawigacja**: Minimalistyczny top-bar z logo i przyciskiem logout. Modal dla dodawania/edycji subskrypcji. Dialog potwierdzenia dla usuwania.
+
+5. **Responsywność**: Desktop - tabela, Mobile - karty. Breakpointy Tailwind (sm/md/lg).
+
+6. **Filtrowanie**: Nie implementowane w MVP. UI zaprojektowany z możliwością łatwego dodania w przyszłości. Status widoczny jako badge przy każdej subskrypcji.
+
+7. **Autentykacja**: Własne formularze z Shadcn/ui (nie Supabase Auth UI). Jeden widok `/login` z tabs dla logowania i rejestracji.
+
+8. **Panel AI Insights**: Sekcja zwinięta domyślnie na dashboardzie. Rozwijana na żądanie z przyciskiem "Generuj wglądy AI".
+
+9. **Paginacja**: Tradycyjna paginacja (Previous/Next + numery stron), limit 10, stan w React.
+
+10. **Empty state**: Dedykowany widok dla nowych użytkowników bez subskrypcji z CTA "Dodaj pierwszą subskrypcję".
+
+11. **Walidacja formularzy**: Hybrydowa - inline dla formatów, przy submit dla reguł biznesowych. Wykorzystanie Zod (istniejący schema).
+
+12. **Wyświetlanie danych**: 
+    - Daty w formacie polskim (dd.mm.yyyy) z `Intl.DateTimeFormat`
+    - Waluta jako symbol (zł) z `Intl.NumberFormat`
+    - Kluczowe pola widoczne w liście, szczegóły w modalu edycji
+
+13. **Feedback użytkownika**: Toast notifications (Shadcn Sonner) dla sukcesu i błędów operacji.
+
+14. **Architektura komponentów**: Astro page dla layoutu + React Island (`client:load`) dla interaktywnego dashboardu.
+
+15. **Struktura katalogów**: Minimalna definicja - `auth/`, `subscriptions/`, `ai/`, `ui/`. Szczegóły podczas implementacji.
+
+16. **Style i kolory**: Przesunięte na później. Domyślny theme Shadcn/ui na start.
+
+---
+
+## Matched Recommendations
+
+1. **Hierarchia widoków MVP**:
+   - `/login` - strona logowania/rejestracji z tabs
+   - `/` - Dashboard (po zalogowaniu) zawierający: podsumowanie kosztów, listę subskrypcji, modal CRUD, panel AI Insights
+
+2. **Zarządzanie stanem React**:
+   - `SubscriptionContext` - lista subskrypcji, summary, loading/error states, funkcje CRUD
+   - `AuthContext` - stan autentykacji
+   - Lokalny `useState` - stan modalu, dane formularza
+   - Custom hooks jako wrappery (`useSubscriptions()`, `useAuth()`)
+
+3. **Podstawowa obsługa błędów**:
+   - try/catch w funkcjach fetch
+   - Pojedynczy state `error` w kontekście
+   - Wyświetlanie błędu jako prosty tekst/alert
+   - Przekierowanie na `/login` przy 401
+   - Console.error dla debugowania
+
+4. **Layout podsumowania kosztów**:
+   - Miesięcznie: kwota PLN
+   - Rocznie: kwota PLN
+   - Liczniki: Aktywne | Wstrzymane | Anulowane
+
+5. **Responsywny design listy subskrypcji**:
+   - Desktop: tabela z kolumnami (nazwa, koszt, cykl, status, akcje)
+   - Tablet: tabela z ukrytymi kolumnami
+   - Mobile: karty z kluczowymi informacjami
+
+6. **Flow usuwania subskrypcji**: Przycisk ikony kosza → AlertDialog z potwierdzeniem → akcja lub anulowanie.
+
+7. **Pola widoczne w liście subskrypcji**: nazwa, koszt + waluta, cykl (badge), status (kolorowy badge), akcje (Edytuj/Usuń).
+
+8. **Formularze autentykacji**:
+   - Login: email, hasło
+   - Rejestracja: email, hasło, potwierdzenie hasła
+   - Shadcn/ui Card + Tabs + Input components
+
+9. **Integracja Astro + React**: Astro page obsługuje routing i middleware (auth check), React Island (`<Dashboard client:load />`) obsługuje całą interaktywność.
+
+10. **Minimalna struktura komponentów**:
+    - `src/components/ui/` - Shadcn/ui (istniejące)
+    - `src/components/auth/` - LoginForm, RegisterForm
+    - `src/components/subscriptions/` - komponenty subskrypcji
+    - `src/components/ai/` - AiInsightsPanel
+    - `src/lib/contexts/` - SubscriptionContext, AuthContext
+
+---
+
+## UI Architecture Planning Summary
+
+### Główne wymagania architektury UI
+
+Aplikacja Subbase MVP wymaga prostego, funkcjonalnego interfejsu skoncentrowanego na jednym głównym zadaniu - zarządzaniu subskrypcjami. Architektura opiera się na minimalnej liczbie widoków z dashboardem jako centralnym punktem aplikacji. Priorytetem jest szybkość implementacji i łatwość utrzymania, z możliwością rozbudowy w przyszłości.
+
+### Kluczowe widoki i przepływy użytkownika
+
+**Strona logowania (`/login`)**
+
+Pojedynczy widok z dwoma zakładkami przełączającymi między formularzem logowania a rejestracją. Formularze zbudowane z komponentów Shadcn/ui (Card, Tabs, Input, Button). Po pomyślnym zalogowaniu przekierowanie na dashboard. Obsługa błędów walidacji inline w formularzu.
+
+**Dashboard (`/`)**
+
+Główny i jedyny widok aplikacji po zalogowaniu, zawierający wszystkie funkcjonalności:
+
+- **Sekcja podsumowania**: Wyświetla miesięczne i roczne koszty oraz liczniki subskrypcji według statusu. Dane pobierane z endpointu `/api/subscriptions/summary`. Zawsze widoczna na górze strony.
+
+- **Lista subskrypcji**: Wyświetla wszystkie subskrypcje użytkownika z paginacją. Na desktop jako tabela, na mobile jako karty. Każdy element pokazuje nazwę, koszt, cykl rozliczeniowy (badge), status (kolorowy badge) oraz przyciski akcji. Przycisk "Dodaj subskrypcję" otwiera modal.
+
+- **Modal formularza**: Jeden komponent obsługujący zarówno dodawanie jak i edycję subskrypcji. Walidacja hybrydowa - inline dla formatów pól, przy submit dla reguł biznesowych. Po zapisie: zamknięcie modalu, re-fetch listy i summary, toast notification.
+
+- **Dialog usuwania**: AlertDialog z potwierdzeniem wyświetlany po kliknięciu ikony usuwania. Zawiera nazwę subskrypcji i przyciski Usuń/Anuluj.
+
+- **Panel AI Insights**: Sekcja zwinięta domyślnie, rozwijana przez użytkownika. Po rozwinięciu widoczny przycisk "Generuj wglądy AI". Opcjonalny wybór subskrypcji do analizy. Wyniki wyświetlane jako lista obserwacji z timestamp. Disclaimer o charakterze informacyjnym AI.
+
+- **Empty state**: Dla nowych użytkowników bez subskrypcji - dedykowany widok z komunikatem i prominent CTA otwierającym modal dodawania.
+
+### Strategia integracji z API i zarządzania stanem
+
+**Architektura stanu**
+
+Aplikacja wykorzystuje wbudowane mechanizmy React (hooks + Context) bez zewnętrznych bibliotek. Dwa główne konteksty:
+
+- `SubscriptionContext` przechowuje listę subskrypcji, dane summary, stany ładowania i błędów oraz funkcje wykonujące operacje CRUD. Każda mutacja (add/update/delete) kończy się re-fetchem listy i summary dla zapewnienia spójności danych.
+
+- `AuthContext` zarządza stanem autentykacji i udostępnia informacje o zalogowanym użytkowniku dla komponentów UI.
+
+**Integracja z API**
+
+Wszystkie endpointy wymagają autentykacji (JWT w cookies obsługiwane przez Supabase SSR). Middleware Astro weryfikuje sesję przed renderowaniem chronionych stron. Przy błędzie 401 następuje automatyczne przekierowanie na `/login`.
+
+Komunikacja z API odbywa się przez funkcje w kontekście, które obsługują fetch, aktualizację stanu i podstawową obsługę błędów (try/catch). Toast notifications informują użytkownika o wyniku operacji.
+
+**Paginacja**
+
+Tradycyjna paginacja z komponentami Previous/Next i numerami stron. Domyślny limit 10 elementów. Stan paginacji przechowywany w React (możliwość przeniesienia do URL params w przyszłości).
+
+### Responsywność i bezpieczeństwo
+
+**Responsywność**
+
+Aplikacja adaptuje się do różnych rozmiarów ekranów wykorzystując breakpointy Tailwind:
+- Desktop (lg+): pełna tabela z wszystkimi kolumnami
+- Tablet (md): tabela z ukrytymi mniej istotnymi kolumnami
+- Mobile (sm): lista kart z kluczowymi informacjami
+
+Modal formularza i dialogi dostosowują się do szerokości ekranu. Shadcn/ui komponenty (Table, Card, Dialog) zapewniają podstawową responsywność.
+
+**Bezpieczeństwo**
+
+Autentykacja oparta na Supabase Auth z tokenami JWT przechowywanymi w HTTP-only cookies (nie localStorage). Middleware Astro chroni wszystkie route'y poza `/login`. Row-Level Security na poziomie bazy danych zapewnia izolację danych użytkowników. UI nigdy nie przesyła user_id - jest on ustawiany server-side.
+
+### Decyzje odłożone na później
+
+- Wielowarstwowa obsługa błędów (ErrorBoundary, retry logic, szczegółowe komunikaty)
+- Definicja kolorystyki i brandingu
+- Szczegółowa struktura komponentów (podział na mniejsze komponenty)
+- Filtrowanie subskrypcji po statusie
+- Animacje i transitions
+- Zaawansowana dostępność (keyboard navigation, focus management)
+
+---
+
+## Unresolved Issues
+
+1. **Szczegółowa implementacja komponentów**: Dokładny podział odpowiedzialności między komponenty (np. czy SubscriptionList zawiera logikę paginacji, czy jest osobny komponent Pagination) zostanie ustalony podczas implementacji.
+
+2. **Zachowanie przy wolnym połączeniu**: Nie zdefiniowano szczegółowo co pokazywać podczas ładowania początkowego (skeleton, spinner, pusty ekran). Podstawowa implementacja zakłada prosty stan loading.
+
+3. **Obsługa błędu 503 z AI**: Podstawowa obsługa błędów nie definiuje szczegółowo UI dla niedostępności usługi AI. Na start wystarczy wyświetlenie komunikatu tekstowego w panelu.
+
+4. **Refresh tokenów**: Supabase SSR obsługuje to automatycznie, ale nie zdefiniowano zachowania UI gdy token wygaśnie podczas aktywnej sesji użytkownika.
+
+5. **Walidacja formularza rejestracji**: Nie sprecyzowano wymagań dotyczących siły hasła ani czy wymagane jest potwierdzenie email.
+
+</conversation_summary>
