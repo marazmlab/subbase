@@ -2,7 +2,7 @@
   "semi": true,
   "singleQuote": false,
   "tabWidth": 2,
-  "printWidth": 60,
+  "printWidth": 100,
   "trailingComma": "es5",
   "plugins": ["prettier-plugin-astro"],
   "overrides": [
