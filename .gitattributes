@@ -1,0 +1,14 @@
+# Wymuszaj LF dla plików źródłowych (zapobiega problemom CRLF na Windows)
+* text=auto eol=lf
+
+# Pliki binarne
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
