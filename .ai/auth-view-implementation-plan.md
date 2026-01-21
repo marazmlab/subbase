@@ -347,7 +347,7 @@ import type { Database } from "@/db/database.types";
 export function createSupabaseBrowserClient() {
   return createBrowserClient<Database>(
     import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    import.meta.env.PUBLIC_SUPABASE_KEY
   );
 }
 ```
@@ -481,7 +481,7 @@ Po pomyślnym zalogowaniu przez Supabase Auth:
 1. Dodać zmienne środowiskowe dla klienta przeglądarki w `.env`:
    ```
    PUBLIC_SUPABASE_URL=...
-   PUBLIC_SUPABASE_ANON_KEY=...
+   PUBLIC_SUPABASE_KEY=...
    ```
 2. Zainstalować `@supabase/ssr`:
    ```bash

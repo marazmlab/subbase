@@ -702,3 +702,8 @@ Autentykacja oparta na Supabase Auth z tokenami JWT przechowywanymi w HTTP-only 
 5. **Walidacja formularza rejestracji**: Nie sprecyzowano wymagań dotyczących siły hasła ani czy wymagane jest potwierdzenie email.
 
 </conversation_summary>
+
+
+# Implementation od UI - 1st attempt
+
+### Uwaga: Wymagane będzie dodanie zmiennych środowiskowych PUBLIC_SUPABASE_URL i PUBLIC_SUPABASE_ANON_KEY w pliku .env dla dostępu po stronie klienta.

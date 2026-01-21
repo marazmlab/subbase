@@ -68,7 +68,7 @@ Create a `.env` file in the root directory with your configuration:
 ```env
 # Add your Supabase and OpenRouter credentials here
 PUBLIC_SUPABASE_URL=your_supabase_url
-PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+PUBLIC_SUPABASE_KEY=your_supabase_anon_key
 OPENROUTER_API_KEY=your_openrouter_api_key
 ```
 
