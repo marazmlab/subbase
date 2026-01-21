@@ -7,4 +7,7 @@ const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
 
 export type TypedSupabaseClient = SupabaseClient<Database>;
 
-export const supabaseClient: TypedSupabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey);
+export const supabaseClient: TypedSupabaseClient = createClient<Database>(
+  supabaseUrl,
+  supabaseAnonKey
+);

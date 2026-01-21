@@ -1,7 +1,16 @@
 import type { APIContext } from "astro";
 
-import { handleApiError, jsonResponse, mapZodErrors, validationError, unauthorizedError } from "@/lib/errors";
-import { subscriptionQuerySchema, createSubscriptionSchema } from "@/lib/schemas/subscription.schema";
+import {
+  handleApiError,
+  jsonResponse,
+  mapZodErrors,
+  validationError,
+  unauthorizedError,
+} from "@/lib/errors";
+import {
+  subscriptionQuerySchema,
+  createSubscriptionSchema,
+} from "@/lib/schemas/subscription.schema";
 import { SubscriptionService } from "@/lib/services/subscription.service";
 
 export const prerender = false;

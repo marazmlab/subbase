@@ -25,7 +25,10 @@ export const SummaryService = {
    * @returns Subscription summary with cost totals and status counts
    * @throws ApiError on database errors
    */
-  async calculate(supabase: TypedSupabaseClient, userId: string): Promise<SubscriptionSummaryResponseDTO> {
+  async calculate(
+    supabase: TypedSupabaseClient,
+    userId: string
+  ): Promise<SubscriptionSummaryResponseDTO> {
     // Fetch all user subscriptions for calculations
     const { data: subscriptions, error } = await supabase
       .from("subscriptions")

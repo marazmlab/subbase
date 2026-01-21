@@ -59,7 +59,10 @@ export const SubscriptionService = {
     const offset = (page - 1) * limit;
 
     // Build query with user filter
-    let query = supabase.from("subscriptions").select("*", { count: "exact" }).eq("user_id", userId);
+    let query = supabase
+      .from("subscriptions")
+      .select("*", { count: "exact" })
+      .eq("user_id", userId);
 
     // Apply status filter if provided
     if (status) {
@@ -67,7 +70,9 @@ export const SubscriptionService = {
     }
 
     // Apply pagination and ordering
-    const { data, error, count } = await query.order("created_at", { ascending: false }).range(offset, offset + limit - 1);
+    const { data, error, count } = await query
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) {
       console.error("Error fetching subscriptions:", error);
@@ -99,8 +104,17 @@ export const SubscriptionService = {
    * @returns Single subscription wrapped in response DTO
    * @throws ApiError if not found or on database errors
    */
-  async getById(supabase: TypedSupabaseClient, userId: string, id: string): Promise<SubscriptionResponseDTO> {
-    const { data, error } = await supabase.from("subscriptions").select("*").eq("id", id).eq("user_id", userId).single();
+  async getById(
+    supabase: TypedSupabaseClient,
+    userId: string,
+    id: string
+  ): Promise<SubscriptionResponseDTO> {
+    const { data, error } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("id", id)
+      .eq("user_id", userId)
+      .single();
 
     if (error) {
       if (error.code === "PGRST116") {
@@ -140,7 +154,11 @@ export const SubscriptionService = {
       description: command.description ?? null,
     };
 
-    const { data, error } = await supabase.from("subscriptions").insert(insertData).select().single();
+    const { data, error } = await supabase
+      .from("subscriptions")
+      .insert(insertData)
+      .select()
+      .single();
 
     if (error) {
       console.error("Error creating subscription:", error);
@@ -238,11 +256,16 @@ export const SubscriptionService = {
     if (command.start_date !== undefined || command.next_billing_date !== undefined) {
       const effectiveStartDate = command.start_date ?? existing.start_date;
       const effectiveNextBilling =
-        command.next_billing_date !== undefined ? command.next_billing_date : existing.next_billing_date;
+        command.next_billing_date !== undefined
+          ? command.next_billing_date
+          : existing.next_billing_date;
 
       if (effectiveNextBilling && effectiveNextBilling < effectiveStartDate) {
         throw validationError("Invalid date relationship", [
-          { field: "next_billing_date", message: "Next billing date must be on or after start date" },
+          {
+            field: "next_billing_date",
+            message: "Next billing date must be on or after start date",
+          },
         ]);
       }
     }
@@ -258,7 +281,8 @@ export const SubscriptionService = {
     if (command.billing_cycle !== undefined) updateData.billing_cycle = command.billing_cycle;
     if (command.status !== undefined) updateData.status = command.status;
     if (command.start_date !== undefined) updateData.start_date = command.start_date;
-    if (command.next_billing_date !== undefined) updateData.next_billing_date = command.next_billing_date;
+    if (command.next_billing_date !== undefined)
+      updateData.next_billing_date = command.next_billing_date;
     if (command.description !== undefined) updateData.description = command.description;
 
     const { data, error } = await supabase
@@ -298,7 +322,11 @@ export const SubscriptionService = {
       throw notFoundError("Subscription");
     }
 
-    const { error } = await supabase.from("subscriptions").delete().eq("id", id).eq("user_id", userId);
+    const { error } = await supabase
+      .from("subscriptions")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", userId);
 
     if (error) {
       console.error("Error deleting subscription:", error);

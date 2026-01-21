@@ -9,7 +9,11 @@ import {
   unauthorizedError,
   invalidUuidError,
 } from "@/lib/errors";
-import { uuidSchema, updateSubscriptionSchema, patchSubscriptionSchema } from "@/lib/schemas/subscription.schema";
+import {
+  uuidSchema,
+  updateSubscriptionSchema,
+  patchSubscriptionSchema,
+} from "@/lib/schemas/subscription.schema";
 import { SubscriptionService } from "@/lib/services/subscription.service";
 
 export const prerender = false;

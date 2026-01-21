@@ -1,6 +1,12 @@
 import type { APIContext } from "astro";
 
-import { handleApiError, jsonResponse, mapZodErrors, validationError, unauthorizedError } from "@/lib/errors";
+import {
+  handleApiError,
+  jsonResponse,
+  mapZodErrors,
+  validationError,
+  unauthorizedError,
+} from "@/lib/errors";
 import { aiInsightsSchema } from "@/lib/schemas/subscription.schema";
 import { AIInsightsService } from "@/lib/services/ai-insights.service";
 
@@ -55,7 +61,11 @@ export async function POST(context: APIContext): Promise<Response> {
     }
 
     // Generate insights
-    const result = await AIInsightsService.generateInsights(supabase, user.id, parseResult.data.subscription_ids);
+    const result = await AIInsightsService.generateInsights(
+      supabase,
+      user.id,
+      parseResult.data.subscription_ids
+    );
 
     return jsonResponse(result);
   } catch (error) {

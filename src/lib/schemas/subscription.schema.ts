@@ -13,7 +13,9 @@ export const uuidSchema = z.string().uuid("Invalid UUID format");
 /**
  * Date string validation schema (ISO 8601 format: YYYY-MM-DD)
  */
-const dateStringSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format");
+const dateStringSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format");
 
 // ============================================================================
 // Query Parameters Schema
@@ -26,14 +28,22 @@ const dateStringSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be i
  * - status: Optional filter by subscription status
  */
 export const subscriptionQuerySchema = z.object({
-  page: z.coerce.number().int("Page must be an integer").min(1, "Page must be at least 1").default(1),
+  page: z.coerce
+    .number()
+    .int("Page must be an integer")
+    .min(1, "Page must be at least 1")
+    .default(1),
   limit: z.coerce
     .number()
     .int("Limit must be an integer")
     .min(1, "Limit must be at least 1")
     .max(100, "Limit cannot exceed 100")
     .default(10),
-  status: z.enum(["active", "paused", "cancelled"], { message: "Status must be active, paused, or cancelled" }).optional(),
+  status: z
+    .enum(["active", "paused", "cancelled"], {
+      message: "Status must be active, paused, or cancelled",
+    })
+    .optional(),
 });
 
 export type SubscriptionQuerySchema = z.infer<typeof subscriptionQuerySchema>;
@@ -66,11 +76,17 @@ export const createSubscriptionSchema = z
       message: "Billing cycle must be monthly or yearly",
     }),
     status: z
-      .enum(["active", "paused", "cancelled"], { message: "Status must be active, paused, or cancelled" })
+      .enum(["active", "paused", "cancelled"], {
+        message: "Status must be active, paused, or cancelled",
+      })
       .default("active"),
     start_date: dateStringSchema,
     next_billing_date: dateStringSchema.nullable().optional(),
-    description: z.string().max(1000, "Description cannot exceed 1000 characters").nullable().optional(),
+    description: z
+      .string()
+      .max(1000, "Description cannot exceed 1000 characters")
+      .nullable()
+      .optional(),
   })
   .refine((data) => !data.next_billing_date || data.next_billing_date >= data.start_date, {
     message: "Next billing date must be on or after start date",
@@ -98,7 +114,9 @@ export const updateSubscriptionSchema = z
       .positive("Cost must be greater than 0")
       .max(100000, "Cost cannot exceed 100000")
       .multipleOf(0.01, "Cost can have at most 2 decimal places"),
-    currency: z.string({ required_error: "Currency is required" }).length(3, "Currency must be a 3-character ISO code"),
+    currency: z
+      .string({ required_error: "Currency is required" })
+      .length(3, "Currency must be a 3-character ISO code"),
     billing_cycle: z.enum(["monthly", "yearly"], {
       required_error: "Billing cycle is required",
       message: "Billing cycle must be monthly or yearly",
@@ -130,7 +148,11 @@ export type UpdateSubscriptionSchema = z.infer<typeof updateSubscriptionSchema>;
  * layer when both start_date and next_billing_date are provided
  */
 export const patchSubscriptionSchema = z.object({
-  name: z.string().min(1, "Name cannot be empty").max(255, "Name cannot exceed 255 characters").optional(),
+  name: z
+    .string()
+    .min(1, "Name cannot be empty")
+    .max(255, "Name cannot exceed 255 characters")
+    .optional(),
   cost: z
     .number()
     .positive("Cost must be greater than 0")
@@ -138,11 +160,21 @@ export const patchSubscriptionSchema = z.object({
     .multipleOf(0.01, "Cost can have at most 2 decimal places")
     .optional(),
   currency: z.string().length(3, "Currency must be a 3-character ISO code").optional(),
-  billing_cycle: z.enum(["monthly", "yearly"], { message: "Billing cycle must be monthly or yearly" }).optional(),
-  status: z.enum(["active", "paused", "cancelled"], { message: "Status must be active, paused, or cancelled" }).optional(),
+  billing_cycle: z
+    .enum(["monthly", "yearly"], { message: "Billing cycle must be monthly or yearly" })
+    .optional(),
+  status: z
+    .enum(["active", "paused", "cancelled"], {
+      message: "Status must be active, paused, or cancelled",
+    })
+    .optional(),
   start_date: dateStringSchema.optional(),
   next_billing_date: dateStringSchema.nullable().optional(),
-  description: z.string().max(1000, "Description cannot exceed 1000 characters").nullable().optional(),
+  description: z
+    .string()
+    .max(1000, "Description cannot exceed 1000 characters")
+    .nullable()
+    .optional(),
 });
 
 export type PatchSubscriptionSchema = z.infer<typeof patchSubscriptionSchema>;
@@ -156,7 +188,9 @@ export type PatchSubscriptionSchema = z.infer<typeof patchSubscriptionSchema>;
  * subscription_ids is optional - if omitted, all active subscriptions are analyzed
  */
 export const aiInsightsSchema = z.object({
-  subscription_ids: z.array(z.string().uuid("Each subscription ID must be a valid UUID")).optional(),
+  subscription_ids: z
+    .array(z.string().uuid("Each subscription ID must be a valid UUID"))
+    .optional(),
 });
 
 export type AIInsightsSchema = z.infer<typeof aiInsightsSchema>;
