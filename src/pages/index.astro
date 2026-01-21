@@ -1,8 +1,16 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+
+// Middleware automatycznie ustawia locals.user
+const user = Astro.locals.user;
+
+// Przekieruj niezalogowanych użytkowników na stronę logowania
+if (!user) {
+  return Astro.redirect("/login");
+}
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="Dashboard - Subbase">
+  <DashboardLayout client:load />
 </Layout>
