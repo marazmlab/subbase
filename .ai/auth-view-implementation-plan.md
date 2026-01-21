@@ -4,6 +4,19 @@
 
 Widok autentykacji służy jako punkt wejścia dla użytkowników aplikacji Subbase. Umożliwia rejestrację nowych kont oraz logowanie do istniejących kont. Widok jest zbudowany jako interaktywny komponent React osadzony w stronie Astro, wykorzystujący Supabase Auth do obsługi autentykacji. Głównym celem jest zapewnienie bezpiecznego, dostępnego i intuicyjnego procesu autentykacji z odpowiednią walidacją danych i informacją zwrotną dla użytkownika.
 
+### 1.1 Powiązane dokumenty
+
+- **PRD:** `.ai/prd.md` - sekcja Authentication w User Stories
+- **UI Plan:** `.ai/ui-plan.md` - sekcja 2.1 Widok autentykacji
+- **Middleware:** `src/middleware/index.ts` - obsługa sesji i klienta Supabase
+
+### 1.2 Decyzje architektoniczne
+
+- **Język komunikatów:** Polski (PL) - interfejs użytkownika w języku polskim
+- **Walidacja:** Zod na frontendzie z polskimi komunikatami błędów
+- **Sesje:** Cookie-based dla stron Astro, Bearer token dla API
+- **Klient Supabase:** Wykorzystanie `@supabase/ssr` dla prawidłowej obsługi cookies w przeglądarce
+
 ## 2. Routing widoku
 
 - **Ścieżka:** `/login`
@@ -158,40 +171,60 @@ login.astro
 - **Propsy:**
   - `message?: string | null` - komunikat błędu do wyświetlenia
 
-## 5. Typy
+## 5. Typy i Walidacja
 
-### 5.1 Typy formularza logowania
+### 5.1 Schematy walidacji Zod
+
+Utworzyć plik `src/lib/schemas/auth.schema.ts`:
 
 ```typescript
-/** Wartości formularza logowania */
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { z } from "zod";
 
-/** Błędy walidacji formularza logowania */
-interface LoginFormErrors {
-  email?: string;
-  password?: string;
-}
+/** Schema walidacji formularza logowania */
+export const loginSchema = z.object({
+  email: z
+    .string({ required_error: "Email jest wymagany" })
+    .min(1, "Email jest wymagany")
+    .email("Podaj poprawny adres email"),
+  password: z
+    .string({ required_error: "Hasło jest wymagane" })
+    .min(1, "Hasło jest wymagane")
+    .min(6, "Hasło musi mieć minimum 6 znaków"),
+});
+
+export type LoginFormValues = z.infer<typeof loginSchema>;
+
+/** Schema walidacji formularza rejestracji */
+export const registerSchema = z
+  .object({
+    email: z
+      .string({ required_error: "Email jest wymagany" })
+      .min(1, "Email jest wymagany")
+      .email("Podaj poprawny adres email"),
+    password: z
+      .string({ required_error: "Hasło jest wymagane" })
+      .min(1, "Hasło jest wymagane")
+      .min(6, "Hasło musi mieć minimum 6 znaków"),
+    confirmPassword: z
+      .string({ required_error: "Potwierdzenie hasła jest wymagane" })
+      .min(1, "Potwierdzenie hasła jest wymagane"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Hasła muszą być identyczne",
+    path: ["confirmPassword"],
+  });
+
+export type RegisterFormValues = z.infer<typeof registerSchema>;
 ```
 
-### 5.2 Typy formularza rejestracji
+### 5.2 Typy błędów formularzy
 
 ```typescript
-/** Wartości formularza rejestracji */
-interface RegisterFormValues {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+/** Błędy walidacji formularza logowania */
+type LoginFormErrors = Partial<Record<keyof LoginFormValues, string>>;
 
 /** Błędy walidacji formularza rejestracji */
-interface RegisterFormErrors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
+type RegisterFormErrors = Partial<Record<keyof RegisterFormValues, string>>;
 ```
 
 ### 5.3 Typy stanu autentykacji
@@ -302,9 +335,66 @@ function useAuthForm<TValues, TErrors>(
 - **Odpowiedź sukcesu:** Obiekt `User` (może wymagać potwierdzenia email)
 - **Obsługa błędów:** Mapowanie `AuthError` na komunikaty użytkownika
 
-### 7.3 Klient Supabase
+### 7.3 Klient Supabase dla przeglądarki
 
-Wykorzystać istniejący klient z `src/db/supabase.client.ts`. W komponencie React utworzyć instancję klienta odpowiednią dla przeglądarki.
+Dla komponentów React w przeglądarce należy utworzyć dedykowany klient Supabase z obsługą cookies:
+
+```typescript
+// src/db/supabase.browser.ts
+import { createBrowserClient } from "@supabase/ssr";
+import type { Database } from "@/db/database.types";
+
+export function createSupabaseBrowserClient() {
+  return createBrowserClient<Database>(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  );
+}
+```
+
+**Uwaga:** Wymaga dodania zmiennych środowiskowych z prefiksem `PUBLIC_` dla dostępu po stronie klienta.
+
+## 7A. Integracja z Middleware
+
+### 7A.1 Działanie middleware (`src/middleware/index.ts`)
+
+Middleware automatycznie:
+- Tworzy instancję klienta Supabase i ustawia `context.locals.supabase`
+- Weryfikuje sesję użytkownika i ustawia `context.locals.user`
+- Dla stron Astro używa cookie-based session
+- Dla API routes używa Bearer token z nagłówka Authorization
+
+### 7A.2 Wykorzystanie w stronie login.astro
+
+```astro
+---
+// src/pages/login.astro
+import Layout from "@/layouts/Layout.astro";
+import { AuthCard } from "@/components/auth/AuthCard";
+
+// Middleware ustawia locals.user - sprawdź czy zalogowany
+const user = Astro.locals.user;
+
+// Przekieruj zalogowanych użytkowników na dashboard
+if (user) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Logowanie - Subbase">
+  <main class="min-h-screen flex items-center justify-center">
+    <AuthCard client:load />
+  </main>
+</Layout>
+```
+
+### 7A.3 Obsługa po zalogowaniu
+
+Po pomyślnym zalogowaniu przez Supabase Auth:
+1. Supabase automatycznie ustawia cookies sesji
+2. Przekierowanie na `/` przez `window.location.href = "/"`
+3. Middleware odczyta sesję z cookies i ustawi `locals.user`
+4. Dashboard sprawdzi `locals.user` i wyrenderuje dane użytkownika
 
 ## 8. Interakcje użytkownika
 
@@ -386,92 +476,110 @@ Wykorzystać istniejący klient z `src/db/supabase.client.ts`. W komponencie Rea
 
 ## 11. Kroki implementacji
 
-### Krok 1: Utworzenie strony Astro
+### Krok 1: Konfiguracja środowiska
 
-Utworzyć plik `src/pages/login.astro`:
-- Import Layout
-- Sprawdzenie sesji użytkownika i przekierowanie zalogowanych na `/`
-- Osadzenie komponentu AuthCard z dyrektywą `client:load`
+1. Dodać zmienne środowiskowe dla klienta przeglądarki w `.env`:
+   ```
+   PUBLIC_SUPABASE_URL=...
+   PUBLIC_SUPABASE_ANON_KEY=...
+   ```
+2. Zainstalować `@supabase/ssr`:
+   ```bash
+   npm install @supabase/ssr
+   ```
 
-### Krok 2: Implementacja komponentu FormField
-
-Utworzyć plik `src/components/auth/FormField.tsx`:
-- Zdefiniować interfejs `FormFieldProps`
-- Zaimplementować komponent z Label, Input i komunikatem błędu
-- Dodać atrybuty dostępności (htmlFor, aria-invalid, aria-describedby)
-
-### Krok 3: Implementacja komponentu FormError
-
-Utworzyć plik `src/components/auth/FormError.tsx`:
-- Prosty komponent wyświetlający komunikat błędu
-- Atrybuty role="alert" i aria-live="polite"
-- Warunkowe renderowanie (null gdy brak błędu)
-
-### Krok 4: Implementacja hooka useAuthForm
-
-Utworzyć plik `src/lib/hooks/useAuthForm.ts`:
-- Generyczny hook dla logiki formularzy
-- Zarządzanie stanem values, errors, isSubmitting, submitError
-- Funkcje handleChange, handleBlur, handleSubmit
-
-### Krok 5: Implementacja LoginForm
-
-Utworzyć plik `src/components/auth/LoginForm.tsx`:
-- Użycie hooka useAuthForm z walidacją dla logowania
-- Integracja z Supabase Auth signInWithPassword
-- Mapowanie błędów Supabase na komunikaty
-- Przekierowanie po sukcesie
-
-### Krok 6: Implementacja RegisterForm
-
-Utworzyć plik `src/components/auth/RegisterForm.tsx`:
-- Użycie hooka useAuthForm z walidacją dla rejestracji
-- Walidacja zgodności haseł
-- Integracja z Supabase Auth signUp
-- Mapowanie błędów Supabase na komunikaty
-- Przekierowanie po sukcesie
-
-### Krok 7: Implementacja AuthTabs
-
-Utworzyć plik `src/components/auth/AuthTabs.tsx`:
-- Wykorzystanie Tabs z Shadcn/ui
-- Zarządzanie stanem aktywnej zakładki
-- Przekazywanie children do TabsContent
-
-### Krok 8: Implementacja AuthCard
-
-Utworzyć plik `src/components/auth/AuthCard.tsx`:
-- Wykorzystanie Card z Shadcn/ui
-- Zarządzanie stanem formularzy (zachowanie przy przełączaniu)
-- Kompozycja AuthTabs, LoginForm, RegisterForm
-
-### Krok 9: Dodanie komponentów Shadcn/ui
+### Krok 2: Instalacja komponentów Shadcn/ui
 
 Zainstalować wymagane komponenty przez CLI Shadcn:
-- Input
-- Label
-- Tabs
-- (Card już istnieje)
-- (Button już istnieje)
+```bash
+npx shadcn@latest add input label tabs
+```
+(Card i Button już istnieją w projekcie)
+
+### Krok 3: Utworzenie klienta Supabase dla przeglądarki
+
+Utworzyć plik `src/db/supabase.browser.ts`:
+- Export funkcji `createSupabaseBrowserClient()`
+- Konfiguracja z `@supabase/ssr` dla obsługi cookies
+
+### Krok 4: Utworzenie schematów walidacji
+
+Utworzyć plik `src/lib/schemas/auth.schema.ts`:
+- `loginSchema` z walidacją email i hasła
+- `registerSchema` z walidacją zgodności haseł
+- Export typów `LoginFormValues` i `RegisterFormValues`
+
+### Krok 5: Implementacja hooka useAuthForm
+
+Utworzyć plik `src/lib/hooks/useAuthForm.ts`:
+- Generyczny hook dla logiki formularzy z integracją Zod
+- Zarządzanie stanem: values, errors, isSubmitting, submitError
+- Funkcje: handleChange, handleBlur, handleSubmit, reset
+- Walidacja przez schema Zod przy blur i submit
+
+### Krok 6: Implementacja komponentów pomocniczych
+
+Utworzyć pliki:
+- `src/components/auth/FormField.tsx` - wrapper dla pola formularza
+- `src/components/auth/FormError.tsx` - komunikat błędu ogólnego
+
+### Krok 7: Implementacja formularzy
+
+Utworzyć pliki:
+- `src/components/auth/LoginForm.tsx` - formularz logowania
+- `src/components/auth/RegisterForm.tsx` - formularz rejestracji
+
+Każdy formularz:
+- Używa hooka `useAuthForm` z odpowiednim schematem Zod
+- Integruje się z Supabase Auth (`signInWithPassword` / `signUp`)
+- Mapuje błędy Supabase na polskie komunikaty
+- Przekierowuje na `/` po sukcesie
+
+### Krok 8: Implementacja kontenerów
+
+Utworzyć pliki:
+- `src/components/auth/AuthTabs.tsx` - przełącznik zakładek
+- `src/components/auth/AuthCard.tsx` - główny kontener z zachowaniem stanu formularzy
+
+### Krok 9: Utworzenie strony Astro
+
+Utworzyć plik `src/pages/login.astro`:
+- Sprawdzenie `Astro.locals.user` (ustawiane przez middleware)
+- Przekierowanie zalogowanych na `/`
+- Osadzenie `AuthCard` z dyrektywą `client:load`
 
 ### Krok 10: Stylowanie i responsywność
 
-- Wyśrodkowanie karty na stronie (flex, items-center, justify-center)
-- Maksymalna szerokość karty (max-w-md)
-- Responsywne marginesy i paddingi
-- Stylowanie stanów błędów pól formularza
+- Wyśrodkowanie karty (flex, items-center, justify-center, min-h-screen)
+- Maksymalna szerokość (max-w-md)
+- Responsywne paddingi
+- Stylowanie stanów błędów (czerwona ramka, aria-invalid)
 
-### Krok 11: Testowanie dostępności
+### Krok 11: Testowanie manualne
 
-- Sprawdzenie nawigacji Tab
-- Sprawdzenie czytników ekranu (aria-labels, role="alert")
-- Sprawdzenie kontrastu kolorów
-- Sprawdzenie fokusa na polach
+Scenariusze do przetestowania:
+- [ ] Logowanie z poprawnymi danymi → przekierowanie na /
+- [ ] Logowanie z błędnymi danymi → komunikat "Nieprawidłowy email lub hasło"
+- [ ] Rejestracja nowego konta → przekierowanie na /
+- [ ] Rejestracja z istniejącym emailem → komunikat błędu
+- [ ] Rejestracja z niezgodnymi hasłami → komunikat inline
+- [ ] Przełączanie zakładek → dane zachowane
+- [ ] Dostęp do /login gdy zalogowany → przekierowanie na /
+- [ ] Nawigacja Tab między polami
+- [ ] Submit formularza przez Enter
 
-### Krok 12: Testowanie integracyjne
+---
 
-- Test pomyślnego logowania
-- Test pomyślnej rejestracji
-- Test błędnych danych
-- Test przełączania zakładek z zachowaniem danych
-- Test przekierowania zalogowanych użytkowników
+## 12. Historia zmian dokumentu
+
+### v1.1 (2026-01-21)
+
+Zmiany wprowadzone po code review:
+
+1. **Dodano sekcję 1.1 Powiązane dokumenty** - jawne odniesienia do PRD, UI Plan i middleware
+2. **Dodano sekcję 1.2 Decyzje architektoniczne** - język PL, walidacja Zod, sesje cookie-based
+3. **Zaktualizowano sekcję 5 Typy** - dodano schematy Zod z polskimi komunikatami (`auth.schema.ts`)
+4. **Dodano sekcję 7A Integracja z Middleware** - opis działania middleware i wykorzystania w login.astro
+5. **Dodano sekcję 7.3** - specyfikacja klienta Supabase dla przeglądarki (`@supabase/ssr`)
+6. **Przeorganizowano kroki implementacji** - logiczna kolejność: środowisko → typy/schematy → hooki → komponenty → strona
+7. **Rozszerzono scenariusze testowe** - konkretne przypadki z checklistą
