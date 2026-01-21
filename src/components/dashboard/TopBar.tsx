@@ -14,8 +14,7 @@ export function TopBar() {
       const supabase = createSupabaseBrowserClient();
       await supabase.auth.signOut();
       window.location.href = "/login";
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch {
       setIsLoggingOut(false);
     }
   }, []);
