@@ -144,15 +144,17 @@ export function useAuthForm<TValues extends Record<string, unknown>>({
     async (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Waliduj wszystkie pola
-      const errors = validateAll(state.values);
+      // Waliduj używając aktualnego state
+      const currentValues = state.values;
+      const validationErrors = validateAll(currentValues);
 
-      if (Object.keys(errors).length > 0) {
-        setState((prev) => ({ ...prev, errors }));
+      // Jeśli są błędy, ustaw je w state i przerwij
+      if (Object.keys(validationErrors).length > 0) {
+        setState((prev) => ({ ...prev, errors: validationErrors }));
         return;
       }
 
-      // Rozpocznij submit
+      // Ustaw isSubmitting
       setState((prev) => ({
         ...prev,
         isSubmitting: true,
@@ -160,7 +162,7 @@ export function useAuthForm<TValues extends Record<string, unknown>>({
       }));
 
       try {
-        await onSubmit(state.values);
+        await onSubmit(currentValues);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Wystąpił błąd. Spróbuj ponownie później";

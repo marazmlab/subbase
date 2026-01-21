@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
 import { defineMiddleware } from "astro:middleware";
 
 import type { Database } from "@/db/database.types";
@@ -28,15 +28,25 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const token = authHeader?.replace("Bearer ", "");
 
     // Create Supabase client with custom auth header
-    const supabase: TypedSupabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-      global: {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      },
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
+    const supabase: TypedSupabaseClient = createServerClient<Database>(
+      supabaseUrl,
+      supabaseAnonKey,
+      {
+        global: {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        },
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
+        cookies: {
+          getAll: () => [],
+          setAll: () => {
+            // No-op for API routes - we don't manage cookies here
+          },
+        },
+      }
+    );
 
     context.locals.supabase = supabase;
 
@@ -58,16 +68,37 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   } else {
     // For non-API routes, use cookie-based session
-    const supabase: TypedSupabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-      },
-    });
+    const supabase: TypedSupabaseClient = createServerClient<Database>(
+      supabaseUrl,
+      supabaseAnonKey,
+      {
+        cookies: {
+          getAll() {
+            // Astro cookies API doesn't have getAll(), iterate through headers
+            const cookieHeader = context.request.headers.get("cookie");
+            if (!cookieHeader) return [];
+
+            // Parse cookie header manually
+            return cookieHeader.split(";").map((cookie) => {
+              const [name, ...rest] = cookie.trim().split("=");
+              return {
+                name: name.trim(),
+                value: rest.join("=").trim(),
+              };
+            });
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              context.cookies.set(name, value, options);
+            });
+          },
+        },
+      }
+    );
 
     context.locals.supabase = supabase;
 
-    // Try to get user from session
+    // Try to get user from session (now correctly reads from cookies)
     const {
       data: { user },
     } = await supabase.auth.getUser();
