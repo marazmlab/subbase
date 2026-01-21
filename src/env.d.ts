@@ -14,9 +14,13 @@ declare global {
 }
 
 interface ImportMetaEnv {
+  // Server-side only
   readonly SUPABASE_URL: string;
   readonly SUPABASE_KEY: string;
   readonly OPENROUTER_API_KEY: string;
+  // Client-side (exposed to browser)
+  readonly PUBLIC_SUPABASE_URL: string;
+  readonly PUBLIC_SUPABASE_KEY: string;
 }
 
 interface ImportMeta {
