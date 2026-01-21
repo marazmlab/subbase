@@ -1,4 +1,13 @@
-import { createContext, useContext, useReducer, useCallback, useEffect, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { toast } from "sonner";
 
 import type {
@@ -7,7 +16,11 @@ import type {
   UpdateSubscriptionCommand,
   SubscriptionQueryParams,
 } from "@/types";
-import type { DashboardState, DashboardContextValue, DashboardAction } from "@/types/dashboard.types";
+import type {
+  DashboardState,
+  DashboardContextValue,
+  DashboardAction,
+} from "@/types/dashboard.types";
 import { initialDashboardState } from "@/types/dashboard.types";
 import * as api from "@/lib/services/subscription-api.client";
 import { ApiError } from "@/lib/services/subscription-api.client";
@@ -130,12 +143,20 @@ interface DashboardProviderProps {
 
 export function DashboardProvider({ children }: DashboardProviderProps) {
   const [state, dispatch] = useReducer(dashboardReducer, initialDashboardState);
+  const [shouldRedirectToLogin, setShouldRedirectToLogin] = useState(false);
 
-  // Helper do obsługi błędów 401
+  // Effect do obsługi przekierowania na login
+  useEffect(() => {
+    if (shouldRedirectToLogin) {
+      window.location.href = "/login";
+    }
+  }, [shouldRedirectToLogin]);
+
+  // Helper do obsługi błędów 401 - ustawia flagę przekierowania
   const handleAuthError = useCallback((error: unknown): boolean => {
     if (error instanceof ApiError && error.code === "UNAUTHORIZED") {
       toast.error("Sesja wygasła. Zaloguj się ponownie.");
-      window.location.href = "/login";
+      setShouldRedirectToLogin(true);
       return true;
     }
     return false;
@@ -163,7 +184,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       } catch (error) {
         if (handleAuthError(error)) return;
 
-        const message = error instanceof ApiError ? error.message : "Nie udało się pobrać subskrypcji";
+        const message =
+          error instanceof ApiError ? error.message : "Nie udało się pobrać subskrypcji";
         dispatch({ type: "SET_ERROR", payload: message });
         toast.error(message);
       }
@@ -179,9 +201,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       dispatch({ type: "SET_SUMMARY", payload: response.data });
     } catch (error) {
       if (handleAuthError(error)) return;
-
-      console.error("Failed to fetch summary:", error);
       // Nie pokazujemy toasta dla summary - nie blokuje funkcjonalności
+      // Błąd jest ignorowany celowo - summary jest opcjonalne
     }
   }, [handleAuthError]);
 
@@ -199,7 +220,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
       } catch (error) {
         if (handleAuthError(error)) throw error;
 
-        const message = error instanceof ApiError ? error.message : "Nie udało się dodać subskrypcji";
+        const message =
+          error instanceof ApiError ? error.message : "Nie udało się dodać subskrypcji";
         toast.error(message);
         throw error;
       }
@@ -260,7 +282,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
           return;
         }
 
-        const message = error instanceof ApiError ? error.message : "Nie udało się usunąć subskrypcji";
+        const message =
+          error instanceof ApiError ? error.message : "Nie udało się usunąć subskrypcji";
         toast.error(message);
       }
     },
@@ -340,10 +363,15 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   // Initial Load
   // ============================================================================
 
+  const isInitialLoadDone = useRef(false);
+
   useEffect(() => {
+    if (isInitialLoadDone.current) return;
+    isInitialLoadDone.current = true;
+
     fetchSubscriptions();
     fetchSummary();
-  }, []);
+  }, [fetchSubscriptions, fetchSummary]);
 
   // ============================================================================
   // Context Value

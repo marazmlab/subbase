@@ -33,7 +33,9 @@ export function useSubscriptionForm({
   }));
 
   const [errors, setErrors] = useState<SubscriptionFormErrors>({});
-  const [touched, setTouched] = useState<Partial<Record<keyof SubscriptionFormValues, boolean>>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof SubscriptionFormValues, boolean>>>(
+    {}
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Walidacja pojedynczego pola

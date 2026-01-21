@@ -37,8 +37,8 @@ export const defaultFormValues: SubscriptionFormValues = {
   name: "",
   cost: "",
   currency: "PLN",
-  billing_cycle: "monthly",
-  status: "active",
+  billing_cycle: "monthly" as const,
+  status: "active" as const,
   start_date: new Date().toISOString().split("T")[0],
   next_billing_date: "",
   description: "",
@@ -54,8 +54,8 @@ export function subscriptionToFormValues(dto: SubscriptionDTO): SubscriptionForm
     name: dto.name,
     cost: dto.cost.toString(),
     currency: dto.currency,
-    billing_cycle: dto.billing_cycle,
-    status: dto.status,
+    billing_cycle: dto.billing_cycle as BillingCycle,
+    status: dto.status as SubscriptionStatus,
     start_date: dto.start_date,
     next_billing_date: dto.next_billing_date ?? "",
     description: dto.description ?? "",
@@ -63,7 +63,9 @@ export function subscriptionToFormValues(dto: SubscriptionDTO): SubscriptionForm
 }
 
 /** Konwersja z SubscriptionFormValues do CreateSubscriptionCommand */
-export function formValuesToCreateCommand(values: SubscriptionFormValues): CreateSubscriptionCommand {
+export function formValuesToCreateCommand(
+  values: SubscriptionFormValues
+): CreateSubscriptionCommand {
   return {
     name: values.name.trim(),
     cost: parseFloat(values.cost),
@@ -77,7 +79,9 @@ export function formValuesToCreateCommand(values: SubscriptionFormValues): Creat
 }
 
 /** Konwersja z SubscriptionFormValues do UpdateSubscriptionCommand */
-export function formValuesToUpdateCommand(values: SubscriptionFormValues): UpdateSubscriptionCommand {
+export function formValuesToUpdateCommand(
+  values: SubscriptionFormValues
+): UpdateSubscriptionCommand {
   return {
     name: values.name.trim(),
     cost: parseFloat(values.cost),
@@ -175,7 +179,10 @@ export interface DashboardContextValue extends DashboardState {
 export type DashboardAction =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_SUMMARY_LOADING"; payload: boolean }
-  | { type: "SET_SUBSCRIPTIONS"; payload: { subscriptions: SubscriptionDTO[]; pagination: PaginationDTO } }
+  | {
+      type: "SET_SUBSCRIPTIONS";
+      payload: { subscriptions: SubscriptionDTO[]; pagination: PaginationDTO };
+    }
   | { type: "SET_SUMMARY"; payload: SubscriptionSummaryDTO }
   | { type: "SET_ERROR"; payload: string | null }
   | { type: "ADD_SUBSCRIPTION"; payload: SubscriptionDTO }
