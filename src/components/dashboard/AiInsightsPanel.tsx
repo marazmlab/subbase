@@ -50,7 +50,7 @@ export function AiInsightsPanel({
           <CollapsibleTrigger asChild>
             <button
               type="button"
-              className="flex w-full items-center justify-between p-6 text-left transition-colors hover:bg-muted/50"
+              className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-muted/50 sm:p-6"
               aria-expanded={isExpanded}
               aria-controls="ai-insights-content"
             >
@@ -70,7 +70,7 @@ export function AiInsightsPanel({
         </CardHeader>
 
         <CollapsibleContent id="ai-insights-content">
-          <CardContent className="space-y-4 border-t pt-4">
+          <CardContent className="space-y-3 border-t pt-3 sm:space-y-4 sm:pt-4">
             {/* Generate button */}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-muted-foreground">
@@ -107,7 +107,7 @@ export function AiInsightsPanel({
 
             {/* Insights list */}
             {aiInsights && aiInsights.insights.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {aiInsights.insights.map((insight, index) => (
                   <InsightItem key={index} insight={insight} />
                 ))}
@@ -123,7 +123,7 @@ export function AiInsightsPanel({
 
             {/* Footer with timestamp and disclaimer */}
             {aiInsights && (
-              <div className="space-y-2 border-t pt-4 text-xs text-muted-foreground">
+              <div className="space-y-1.5 border-t pt-3 text-xs text-muted-foreground sm:space-y-2 sm:pt-4">
                 <p>
                   Wygenerowano: {formatTimestamp(aiInsights.generated_at)} • Przeanalizowano{" "}
                   {aiInsights.subscription_count}{" "}

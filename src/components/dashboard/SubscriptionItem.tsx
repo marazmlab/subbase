@@ -100,11 +100,11 @@ export const SubscriptionItemCard = memo(function SubscriptionItemCard({
 }: SubscriptionItemProps) {
   return (
     <Card>
-      <CardContent className="pt-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0 flex-1 space-y-1">
+      <CardContent className="pt-3 sm:pt-4">
+        <div className="flex items-start justify-between gap-2 sm:gap-4">
+          <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
             <h3 className="truncate font-medium">{subscription.name}</h3>
-            <p className="text-lg font-bold">
+            <p className="text-base font-bold sm:text-lg">
               {formatCurrency(subscription.cost, subscription.currency)}
             </p>
           </div>
@@ -128,7 +128,7 @@ export const SubscriptionItemCard = memo(function SubscriptionItemCard({
           </div>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-3">
           <Badge variant="outline">{CYCLE_LABELS[subscription.billing_cycle]}</Badge>
           <Badge className={STATUS_COLORS[subscription.status]}>
             {STATUS_LABELS[subscription.status]}
@@ -136,7 +136,7 @@ export const SubscriptionItemCard = memo(function SubscriptionItemCard({
         </div>
 
         {subscription.next_billing_date && (
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm text-muted-foreground sm:mt-2">
             Następne rozliczenie: {formatDate(subscription.next_billing_date)}
           </p>
         )}

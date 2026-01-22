@@ -40,7 +40,7 @@ function FormField({ id, label, error, touched, required, children }: FormFieldP
   const showError = touched && error;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5 sm:space-y-2">
       <Label htmlFor={id}>
         {label}
         {required && <span className="text-destructive"> *</span>}
@@ -71,7 +71,7 @@ export function SubscriptionForm({
   const fieldId = (name: string) => `${baseId}-${name}`;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
       {/* Name */}
       <FormField
         id={fieldId("name")}
@@ -92,7 +92,7 @@ export function SubscriptionForm({
       </FormField>
 
       {/* Cost & Currency */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         <FormField
           id={fieldId("cost")}
           label="Koszt"
@@ -143,7 +143,7 @@ export function SubscriptionForm({
       </div>
 
       {/* Billing Cycle & Status */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         <FormField
           id={fieldId("billing_cycle")}
           label="Cykl rozliczeniowy"
@@ -202,7 +202,7 @@ export function SubscriptionForm({
       </div>
 
       {/* Dates */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         <FormField
           id={fieldId("start_date")}
           label="Data rozpoczęcia"
@@ -259,7 +259,7 @@ export function SubscriptionForm({
       </FormField>
 
       {/* Actions */}
-      <div className="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end">
+      <div className="flex flex-col-reverse gap-2 pt-3 sm:flex-row sm:justify-end sm:pt-4">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
           Anuluj
         </Button>

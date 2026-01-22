@@ -13,7 +13,7 @@ export function SummarySection({ summary, isLoading }: SummarySectionProps) {
   const headingId = useId();
 
   return (
-    <section aria-labelledby={headingId} className="space-y-4">
+    <section aria-labelledby={headingId} className="space-y-3 sm:space-y-4">
       <h2 id={headingId} className="text-lg font-semibold">
         Podsumowanie
       </h2>
@@ -29,7 +29,7 @@ export function SummarySection({ summary, isLoading }: SummarySectionProps) {
       </div>
 
       {/* Cost Summary Cards */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         <SummaryCard
           label="Koszt miesięczny"
           value={summary?.monthly_total ?? 0}

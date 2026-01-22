@@ -27,7 +27,7 @@ function SubscriptionListSkeleton() {
       {/* Mobile skeleton */}
       <div className="space-y-3 md:hidden">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-32 w-full rounded-xl" />
+          <Skeleton key={i} className="h-28 w-full rounded-xl sm:h-32" />
         ))}
       </div>
     </>
