@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import { AuthTopBar } from "@/components/auth/AuthTopBar";
 import { AuthTabs, type AuthTabValue } from "@/components/auth/AuthTabs";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { RegisterForm } from "@/components/auth/RegisterForm";
@@ -43,34 +45,37 @@ export function AuthCard() {
   }, []);
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Subbase</CardTitle>
-        <CardDescription>
-          {activeTab === "login" ? "Zaloguj się do swojego konta" : "Utwórz nowe konto"}
-        </CardDescription>
-      </CardHeader>
+    <ThemeProvider>
+      <AuthTopBar />
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Subbase</CardTitle>
+          <CardDescription>
+            {activeTab === "login" ? "Zaloguj się do swojego konta" : "Utwórz nowe konto"}
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent>
-        <AuthTabs
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          loginContent={
-            <LoginForm
-              initialValues={loginFormValues}
-              onValuesChange={handleLoginValuesChange}
-              onSuccess={handleAuthSuccess}
-            />
-          }
-          registerContent={
-            <RegisterForm
-              initialValues={registerFormValues}
-              onValuesChange={handleRegisterValuesChange}
-              onSuccess={handleAuthSuccess}
-            />
-          }
-        />
-      </CardContent>
-    </Card>
+        <CardContent>
+          <AuthTabs
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            loginContent={
+              <LoginForm
+                initialValues={loginFormValues}
+                onValuesChange={handleLoginValuesChange}
+                onSuccess={handleAuthSuccess}
+              />
+            }
+            registerContent={
+              <RegisterForm
+                initialValues={registerFormValues}
+                onValuesChange={handleRegisterValuesChange}
+                onSuccess={handleAuthSuccess}
+              />
+            }
+          />
+        </CardContent>
+      </Card>
+    </ThemeProvider>
   );
 }

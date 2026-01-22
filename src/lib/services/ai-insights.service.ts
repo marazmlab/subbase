@@ -13,11 +13,11 @@ interface OpenRouterMessage {
 }
 
 interface OpenRouterResponse {
-  choices?: Array<{
+  choices?: {
     message?: {
       content?: string;
     };
-  }>;
+  }[];
   error?: {
     message: string;
   };
@@ -216,7 +216,7 @@ Respond in the same language as subscription names if they're not in English.`;
         return [{ type: "observation", message: content.trim() }];
       }
 
-      const parsed = JSON.parse(jsonMatch[0]) as Array<{ type?: string; message?: string }>;
+      const parsed = JSON.parse(jsonMatch[0]) as { type?: string; message?: string }[];
 
       if (!Array.isArray(parsed)) {
         return [{ type: "observation", message: content.trim() }];

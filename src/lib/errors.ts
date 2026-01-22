@@ -64,21 +64,21 @@ export function validationError(message: string, details?: FieldErrorDTO[]): Api
 /**
  * Creates an invalid UUID error (HTTP 400)
  */
-export function invalidUuidError(paramName: string = "id"): ApiError {
+export function invalidUuidError(paramName = "id"): ApiError {
   return new ApiError(400, "INVALID_UUID", `Invalid UUID format for parameter: ${paramName}`);
 }
 
 /**
  * Creates an unauthorized error (HTTP 401)
  */
-export function unauthorizedError(message: string = "Authentication required"): ApiError {
+export function unauthorizedError(message = "Authentication required"): ApiError {
   return new ApiError(401, "UNAUTHORIZED", message);
 }
 
 /**
  * Creates a not found error (HTTP 404)
  */
-export function notFoundError(resource: string = "Resource"): ApiError {
+export function notFoundError(resource = "Resource"): ApiError {
   return new ApiError(404, "NOT_FOUND", `${resource} not found`);
 }
 
@@ -92,7 +92,7 @@ export function aiServiceUnavailableError(): ApiError {
 /**
  * Creates an internal server error (HTTP 500)
  */
-export function internalError(message: string = "An unexpected error occurred"): ApiError {
+export function internalError(message = "An unexpected error occurred"): ApiError {
   return new ApiError(500, "INTERNAL_ERROR", message);
 }
 
@@ -157,7 +157,7 @@ export function handleApiError(error: unknown): Response {
  * @param status - HTTP status code (default: 200)
  * @returns HTTP Response with JSON body
  */
-export function jsonResponse<T>(data: T, status: number = 200): Response {
+export function jsonResponse<T>(data: T, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: { "Content-Type": "application/json" },

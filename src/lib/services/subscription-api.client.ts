@@ -22,7 +22,7 @@ export class ApiError extends Error {
     message: string,
     public readonly code: ErrorCode,
     public readonly status: number,
-    public readonly details?: Array<{ field: string; message: string }>
+    public readonly details?: { field: string; message: string }[]
   ) {
     super(message);
     this.name = "ApiError";

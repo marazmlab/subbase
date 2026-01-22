@@ -2,6 +2,7 @@ import { useId } from "react";
 import { Plus } from "lucide-react";
 
 import { DashboardProvider, useDashboard } from "@/lib/contexts/DashboardContext";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { TopBar } from "./TopBar";
@@ -44,7 +45,10 @@ function DashboardContent() {
     <div className="min-h-screen bg-background">
       <TopBar />
 
-      <main className="mx-auto max-w-[var(--container-max-width)] px-4 py-4 sm:px-6 sm:py-6 lg:px-8" aria-label="Dashboard">
+      <main
+        className="mx-auto max-w-[var(--container-max-width)] px-4 py-4 sm:px-6 sm:py-6 lg:px-8"
+        aria-label="Dashboard"
+      >
         <div className="space-y-6 sm:space-y-8">
           {/* Summary Section */}
           <SummarySection summary={summary} isLoading={isSummaryLoading} />
@@ -129,8 +133,10 @@ function DashboardContent() {
 
 export function DashboardLayout() {
   return (
-    <DashboardProvider>
-      <DashboardContent />
-    </DashboardProvider>
+    <ThemeProvider>
+      <DashboardProvider>
+        <DashboardContent />
+      </DashboardProvider>
+    </ThemeProvider>
   );
 }
