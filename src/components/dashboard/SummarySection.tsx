@@ -18,7 +18,18 @@ export function SummarySection({ summary, isLoading }: SummarySectionProps) {
         Podsumowanie
       </h2>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Status Counters - displayed above cost cards */}
+      <div className="flex items-center">
+        <StatusCounters
+          activeCount={summary?.active_count ?? 0}
+          pausedCount={summary?.paused_count ?? 0}
+          cancelledCount={summary?.cancelled_count ?? 0}
+          isLoading={isLoading}
+        />
+      </div>
+
+      {/* Cost Summary Cards */}
+      <div className="grid gap-4 sm:grid-cols-2">
         <SummaryCard
           label="Koszt miesięczny"
           value={summary?.monthly_total ?? 0}
@@ -31,14 +42,6 @@ export function SummarySection({ summary, isLoading }: SummarySectionProps) {
           currency={summary?.currency ?? "PLN"}
           isLoading={isLoading}
         />
-        <div className="flex items-center sm:col-span-2 lg:col-span-1">
-          <StatusCounters
-            activeCount={summary?.active_count ?? 0}
-            pausedCount={summary?.paused_count ?? 0}
-            cancelledCount={summary?.cancelled_count ?? 0}
-            isLoading={isLoading}
-          />
-        </div>
       </div>
     </section>
   );

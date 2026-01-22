@@ -44,7 +44,7 @@ function DashboardContent() {
     <div className="min-h-screen bg-background">
       <TopBar />
 
-      <main className="container py-6" aria-label="Dashboard">
+      <main className="mx-auto max-w-[var(--container-max-width)] px-4 py-6 sm:px-6 lg:px-8" aria-label="Dashboard">
         <div className="space-y-8">
           {/* Summary Section */}
           <SummarySection summary={summary} isLoading={isSummaryLoading} />

@@ -24,7 +24,7 @@ export function TopBar() {
       className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       aria-label="Nagłówek aplikacji"
     >
-      <div className="container flex h-14 items-center justify-between">
+      <div className="mx-auto flex h-14 max-w-[var(--container-max-width)] items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold text-primary">Subbase</span>
         </a>
