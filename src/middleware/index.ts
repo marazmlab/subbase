@@ -5,6 +5,12 @@ import type { Database } from "@/db/database.types";
 import type { TypedSupabaseClient } from "@/db/supabase.client";
 
 /**
+ * Public paths that don't require authentication.
+ * Includes auth pages and static assets.
+ */
+const PUBLIC_PATHS = ["/login", "/signup"];
+
+/**
  * Middleware for handling Supabase client and authentication
  *
  * For API routes (/api/*):
@@ -14,6 +20,9 @@ import type { TypedSupabaseClient } from "@/db/supabase.client";
  *
  * For other routes:
  * - Creates a Supabase client with cookies for SSR session handling
+ * - Enforces authentication redirects:
+ *   - Unauthenticated users accessing protected pages → redirect to /login
+ *   - Authenticated users accessing /login → redirect to / (dashboard)
  */
 export const onRequest = defineMiddleware(async (context, next) => {
   const supabaseUrl = import.meta.env.SUPABASE_URL;
@@ -104,6 +113,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
     } = await supabase.auth.getUser();
 
     context.locals.user = user;
+
+    // Authentication redirects
+    const isPublicPath = PUBLIC_PATHS.includes(context.url.pathname);
+
+    if (!user && !isPublicPath) {
+      // Unauthenticated user trying to access protected page → redirect to login
+      return context.redirect("/login");
+    }
+
+    if (user && (context.url.pathname === "/login" || context.url.pathname === "/signup")) {
+      // Authenticated user trying to access auth pages → redirect to dashboard
+      return context.redirect("/");
+    }
   }
 
   return next();
