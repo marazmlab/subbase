@@ -34,6 +34,12 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 ### AI
 - **[OpenRouter.ai](https://openrouter.ai/)** - Unified API for AI model communication
 
+### Testing
+- **[Vitest](https://vitest.dev/)** - Fast unit test framework with native Vite support
+- **[@testing-library/react](https://testing-library.com/react)** - Testing utilities for React components
+- **[@faker-js/faker](https://fakerjs.dev/)** - Test data generation
+- **[Playwright](https://playwright.dev/)** - End-to-end testing framework (planned for post-MVP)
+
 ### CI/CD & Hosting
 - **GitHub Actions** - Continuous integration and deployment
 - **Digital Ocean** - Application hosting
@@ -93,6 +99,10 @@ Navigate to `http://localhost:4321` to see the application.
 | `lint` | `npm run lint` | Run ESLint to check for code issues |
 | `lint:fix` | `npm run lint:fix` | Automatically fix ESLint issues |
 | `format` | `npm run format` | Format code with Prettier |
+| `test` | `npm run test` | Run unit and integration tests with Vitest |
+| `test:ui` | `npm run test:ui` | Run tests with Vitest UI |
+| `test:coverage` | `npm run test:coverage` | Generate test coverage report |
+| `test:watch` | `npm run test:watch` | Run tests in watch mode |
 
 ## Project Scope
 
