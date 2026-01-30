@@ -38,7 +38,7 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 - **[Vitest](https://vitest.dev/)** - Fast unit test framework with native Vite support
 - **[@testing-library/react](https://testing-library.com/react)** - Testing utilities for React components
 - **[@faker-js/faker](https://fakerjs.dev/)** - Test data generation
-- **[Playwright](https://playwright.dev/)** - End-to-end testing framework (planned for post-MVP)
+- **[Playwright](https://playwright.dev/)** - End-to-end testing framework for browser automation
 
 ### CI/CD & Hosting
 - **GitHub Actions** - Continuous integration and deployment
@@ -87,6 +87,28 @@ npm run dev
 5. **Open your browser:**
 
 Navigate to `http://localhost:4321` to see the application.
+
+## Testing
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
+
+Quick start:
+
+```bash
+# Unit tests
+npm run test              # Run all tests
+npm run test:watch        # Watch mode
+npm run test:ui           # Visual UI
+npm run test:coverage     # With coverage
+
+# E2E tests
+npm run test:e2e          # Run E2E tests
+npm run test:e2e:ui       # With UI
+npm run test:e2e:debug    # Debug mode
+npm run test:e2e:codegen  # Generate tests
+```
+
+**Important**: This project uses Vitest with `globals: true`. Do NOT import `describe`, `it`, `expect` from 'vitest' - they are available globally.
 
 ## Available Scripts
 
@@ -168,8 +190,15 @@ subbase/
 │   ├── lib/             # Services and utility functions
 │   ├── db/              # Supabase clients and types
 │   ├── middleware/      # Astro middleware
+│   ├── test/            # Test utilities and setup
 │   ├── types.ts         # Shared types and interfaces
 │   └── styles/          # Global styles
+├── e2e/                 # E2E tests (Playwright)
+│   ├── auth/            # Authentication tests
+│   ├── dashboard/       # Dashboard tests
+│   ├── api/             # API tests
+│   ├── pages/           # Page Object Models
+│   └── fixtures/        # Test fixtures
 ├── public/              # Static assets
 └── .ai/                 # AI planning and documentation
 ```

@@ -107,9 +107,7 @@ export function RegisterForm({
 
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Rejestracja przebiegła pomyślnie!</h3>
-          <p className="text-sm text-muted-foreground">
-            Wysłaliśmy link aktywacyjny na adres:
-          </p>
+          <p className="text-sm text-muted-foreground">Wysłaliśmy link aktywacyjny na adres:</p>
           <p className="font-medium text-foreground">{registeredEmail}</p>
         </div>
 
@@ -119,8 +117,8 @@ export function RegisterForm({
             <div className="space-y-1 text-sm">
               <p className="font-medium">Potwierdź swój adres email</p>
               <p className="text-muted-foreground">
-                Kliknij w link aktywacyjny, aby dokończyć rejestrację i móc się zalogować.
-                Jeśli nie widzisz wiadomości, sprawdź folder spam.
+                Kliknij w link aktywacyjny, aby dokończyć rejestrację i móc się zalogować. Jeśli nie
+                widzisz wiadomości, sprawdź folder spam.
               </p>
             </div>
           </div>

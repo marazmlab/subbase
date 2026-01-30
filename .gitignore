@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # personal docs
 docs/
+
+# test results
+coverage/
+.vitest/
+test-results/
+playwright-report/
+playwright/.cache/

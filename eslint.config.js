@@ -56,11 +56,20 @@ const reactConfig = tseslint.config({
   },
 });
 
+// E2E test configuration - disable react-hooks rules
+const e2eConfig = tseslint.config({
+  files: ["e2e/**/*.ts"],
+  rules: {
+    "react-hooks/rules-of-hooks": "off",
+  },
+});
+
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
   baseConfig,
   jsxA11yConfig,
   reactConfig,
+  e2eConfig,
   eslintPluginAstro.configs["flat/recommended"],
   eslintPluginPrettier
 );
