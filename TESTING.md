@@ -2,6 +2,16 @@
 
 This project uses **Vitest** for unit testing and **Playwright** for E2E testing.
 
+## Environment Setup
+
+Before running tests, create a `.env.test` file from the example:
+
+```bash
+cp .env.example .env.test
+```
+
+The `.env.test` file should contain test-specific values (mock keys, localhost URLs). Never commit this file to the repository.
+
 ## Quick Start
 
 ```bash
