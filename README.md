@@ -41,8 +41,7 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 - **[Playwright](https://playwright.dev/)** - End-to-end testing framework for browser automation
 
 ### CI/CD & Hosting
-- **GitHub Actions** - Continuous integration and deployment
-- **Digital Ocean** - Application hosting
+- **GitHub Actions** - Continuous integration with automated testing
 
 ## Getting Started Locally
 
@@ -57,7 +56,7 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/yourusername/subbase.git
+git clone https://github.com/marazmlab/subbase.git
 cd subbase
 ```
 
@@ -167,15 +166,26 @@ The AI is designed to help users reflect on their spending, not to make decision
 
 ## Project Status
 
-**Current Version:** 0.0.1 (MVP in Development)
+**Current Version:** 1.0.0 (MVP Completed)
 
-This is an active learning project focused on AI-assisted full-stack development. The primary goals are:
+This is a learning project built with AI-assisted full-stack development. The project demonstrates:
 
-1. ✅ Deliver a functional MVP with clear user value
-2. ✅ Practice structured database, API, UI, and AI planning
-3. ✅ Explore modern web development technologies
-4. 🚧 Complete core subscription management features
-5. 🚧 Implement AI-powered insights
+1. ✅ Functional MVP with core user value
+2. ✅ Structured planning (PRD, database, API, UI, and AI specs)
+3. ✅ Modern web development stack (Astro, React, TypeScript, Supabase)
+4. ✅ Comprehensive testing (Unit tests with Vitest, E2E tests with Playwright)
+5. ✅ CI/CD pipeline with GitHub Actions
+6. ✅ AI-powered insights using OpenRouter
+
+### Certification Status
+
+This project meets all requirements for **10xDevs certification**:
+- ✅ User authentication (Supabase Auth)
+- ✅ CRUD functionality (Subscription management)
+- ✅ Business logic with AI integration
+- ✅ PRD and contextual documentation
+- ✅ User perspective tests (E2E with Playwright)
+- ✅ CI/CD pipeline (GitHub Actions)
 
 ## Project Structure
 
@@ -193,6 +203,8 @@ subbase/
 │   ├── test/            # Test utilities and setup
 │   ├── types.ts         # Shared types and interfaces
 │   └── styles/          # Global styles
+├── .github/
+│   └── workflows/       # GitHub Actions CI/CD workflows
 ├── e2e/                 # E2E tests (Playwright)
 │   ├── auth/            # Authentication tests
 │   ├── dashboard/       # Dashboard tests
@@ -200,7 +212,8 @@ subbase/
 │   ├── pages/           # Page Object Models
 │   └── fixtures/        # Test fixtures
 ├── public/              # Static assets
-└── .ai/                 # AI planning and documentation
+├── .ai/                 # AI planning and documentation
+└── .cursor/             # Cursor IDE rules and configurations
 ```
 
 ## Core User Stories
@@ -218,6 +231,16 @@ subbase/
 ### Overview & Insights
 - As a user, I can see how much I spend monthly and yearly on all subscriptions
 - As a user, I can trigger AI insights to better understand my subscription spending
+
+## CI/CD
+
+This project uses GitHub Actions for continuous integration. On every pull request:
+
+- ✅ Code linting with ESLint
+- ✅ Unit tests with coverage reporting
+- ✅ Automated status comments
+
+See [.github/workflows/README.md](./.github/workflows/README.md) for more details.
 
 ## Contributing
 
