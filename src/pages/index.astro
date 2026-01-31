@@ -2,13 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 
-// Middleware automatycznie ustawia locals.user
-const user = Astro.locals.user;
-
-// Przekieruj niezalogowanych użytkowników na stronę logowania
-if (!user) {
-  return Astro.redirect("/login");
-}
+// Middleware handles authentication and redirects automatically:
+// - Unauthenticated users are redirected to /login
+// - Authenticated users can access this page
+// - User data is available in Astro.locals.user
 ---
 
 <Layout title="Dashboard - Subbase">

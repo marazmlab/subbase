@@ -56,7 +56,7 @@ export const SubscriptionItemRow = memo(function SubscriptionItemRow({
   onDelete,
 }: SubscriptionItemProps) {
   return (
-    <TableRow>
+    <TableRow data-testid="subscription-item">
       <TableCell className="font-medium">{subscription.name}</TableCell>
       <TableCell>{formatCurrency(subscription.cost, subscription.currency)}</TableCell>
       <TableCell>
@@ -99,7 +99,7 @@ export const SubscriptionItemCard = memo(function SubscriptionItemCard({
   onDelete,
 }: SubscriptionItemProps) {
   return (
-    <Card>
+    <Card data-testid="subscription-item">
       <CardContent className="pt-2">
         <div className="flex items-start justify-between gap-2 sm:gap-4">
           <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">

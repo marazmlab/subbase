@@ -8,13 +8,18 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LoginFormValues, RegisterFormValues } from "@/lib/schemas/auth.schema";
 
+export interface AuthCardProps {
+  /** Początkowa zakładka do wyświetlenia */
+  initialTab?: AuthTabValue;
+}
+
 /**
  * Główny kontener widoku autentykacji.
  * Opakowuje formularze w kartę i zarządza stanem przełączania między zakładkami.
  * Zachowuje wpisane dane przy przełączaniu między zakładkami.
  */
-export function AuthCard() {
-  const [activeTab, setActiveTab] = useState<AuthTabValue>("login");
+export function AuthCard({ initialTab = "login" }: AuthCardProps) {
+  const [activeTab, setActiveTab] = useState<AuthTabValue>(initialTab);
 
   // Zachowujemy wartości formularzy przy przełączaniu zakładek
   const [loginFormValues, setLoginFormValues] = useState<LoginFormValues>({
@@ -47,7 +52,7 @@ export function AuthCard() {
   return (
     <ThemeProvider>
       <AuthTopBar />
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md" data-testid="auth-card">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Subbase</CardTitle>
           <CardDescription>

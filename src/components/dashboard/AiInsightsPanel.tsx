@@ -44,7 +44,7 @@ export function AiInsightsPanel({
   const hasSubscriptions = subscriptions.length > 0;
 
   return (
-    <Card>
+    <Card data-testid="ai-insights-panel">
       <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
         <CardHeader className="p-0">
           <CollapsibleTrigger asChild>

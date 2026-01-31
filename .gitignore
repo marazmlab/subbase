@@ -15,7 +15,10 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
+.env.development
 .env.production
+.env.test
 
 # macOS-specific files
 .DS_Store
@@ -25,3 +28,10 @@ pnpm-debug.log*
 
 # personal docs
 docs/
+
+# test results
+coverage/
+.vitest/
+test-results/
+playwright-report/
+playwright/.cache/

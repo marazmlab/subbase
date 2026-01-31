@@ -2,13 +2,9 @@
 import { AuthCard } from "@/components/auth/AuthCard";
 import Layout from "@/layouts/Layout.astro";
 
-// Middleware ustawia locals.user - sprawdź czy zalogowany
-const user = Astro.locals.user;
-
-// Przekieruj zalogowanych użytkowników na dashboard
-if (user) {
-  return Astro.redirect("/");
-}
+// Middleware handles authentication and redirects automatically:
+// - Authenticated users are redirected to / (dashboard)
+// - Unauthenticated users can access this page
 ---
 
 <Layout title="Logowanie - Subbase">

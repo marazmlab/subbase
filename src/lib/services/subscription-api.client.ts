@@ -153,7 +153,7 @@ export async function deleteSubscription(id: string): Promise<void> {
     headers: await getAuthHeaders(),
   });
 
-  return handleResponse<void>(response);
+  return handleResponse<Record<string, never>>(response);
 }
 
 // ============================================================================

@@ -106,8 +106,12 @@ export function useAuthForm<TValues extends Record<string, unknown>>({
       setState((prev) => {
         const newValues = { ...prev.values, [name]: value };
 
-        // Wywołaj callback jeśli podany
-        onValuesChange?.(newValues);
+        // Wywołaj callback asynchronicznie, aby uniknąć problemu z React setState podczas renderowania
+        if (onValuesChange) {
+          setTimeout(() => {
+            onValuesChange(newValues);
+          }, 0);
+        }
 
         return {
           ...prev,

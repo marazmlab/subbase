@@ -34,6 +34,12 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 ### AI
 - **[OpenRouter.ai](https://openrouter.ai/)** - Unified API for AI model communication
 
+### Testing
+- **[Vitest](https://vitest.dev/)** - Fast unit test framework with native Vite support
+- **[@testing-library/react](https://testing-library.com/react)** - Testing utilities for React components
+- **[@faker-js/faker](https://fakerjs.dev/)** - Test data generation
+- **[Playwright](https://playwright.dev/)** - End-to-end testing framework for browser automation
+
 ### CI/CD & Hosting
 - **GitHub Actions** - Continuous integration and deployment
 - **Digital Ocean** - Application hosting
@@ -82,6 +88,28 @@ npm run dev
 
 Navigate to `http://localhost:4321` to see the application.
 
+## Testing
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
+
+Quick start:
+
+```bash
+# Unit tests
+npm run test              # Run all tests
+npm run test:watch        # Watch mode
+npm run test:ui           # Visual UI
+npm run test:coverage     # With coverage
+
+# E2E tests
+npm run test:e2e          # Run E2E tests
+npm run test:e2e:ui       # With UI
+npm run test:e2e:debug    # Debug mode
+npm run test:e2e:codegen  # Generate tests
+```
+
+**Important**: This project uses Vitest with `globals: true`. Do NOT import `describe`, `it`, `expect` from 'vitest' - they are available globally.
+
 ## Available Scripts
 
 | Script | Command | Description |
@@ -93,6 +121,10 @@ Navigate to `http://localhost:4321` to see the application.
 | `lint` | `npm run lint` | Run ESLint to check for code issues |
 | `lint:fix` | `npm run lint:fix` | Automatically fix ESLint issues |
 | `format` | `npm run format` | Format code with Prettier |
+| `test` | `npm run test` | Run unit and integration tests with Vitest |
+| `test:ui` | `npm run test:ui` | Run tests with Vitest UI |
+| `test:coverage` | `npm run test:coverage` | Generate test coverage report |
+| `test:watch` | `npm run test:watch` | Run tests in watch mode |
 
 ## Project Scope
 
@@ -158,8 +190,15 @@ subbase/
 │   ├── lib/             # Services and utility functions
 │   ├── db/              # Supabase clients and types
 │   ├── middleware/      # Astro middleware
+│   ├── test/            # Test utilities and setup
 │   ├── types.ts         # Shared types and interfaces
 │   └── styles/          # Global styles
+├── e2e/                 # E2E tests (Playwright)
+│   ├── auth/            # Authentication tests
+│   ├── dashboard/       # Dashboard tests
+│   ├── api/             # API tests
+│   ├── pages/           # Page Object Models
+│   └── fixtures/        # Test fixtures
 ├── public/              # Static assets
 └── .ai/                 # AI planning and documentation
 ```
