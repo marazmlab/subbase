@@ -112,7 +112,12 @@ export function LoginForm({
 
       <FormError message={submitError} />
 
-      <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="login-submit-button">
+      <Button
+        type="submit"
+        className="w-full"
+        disabled={isSubmitting}
+        data-testid="login-submit-button"
+      >
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" aria-hidden="true" />

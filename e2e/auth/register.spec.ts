@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { RegisterPage } from "../pages/RegisterPage";
-import { DashboardPage } from "../pages/DashboardPage";
 import { LoginPage } from "../pages/LoginPage";
 
 test.describe("User Registration", () => {
@@ -13,7 +12,6 @@ test.describe("User Registration", () => {
   test("should successfully register a new user and redirect to dashboard", async ({ page }) => {
     // Arrange
     const registerPage = new RegisterPage(page);
-    const dashboardPage = new DashboardPage(page);
     const email = RegisterPage.generateRandomEmail();
     const password = "TestPassword123!";
 
@@ -49,7 +47,7 @@ test.describe("User Registration", () => {
     // 1. Otwórz stronę /login (domyślnie zakładka login)
     await page.goto("/login", { waitUntil: "networkidle" });
     await loginPage.authCard.waitFor({ state: "visible" });
-    
+
     // Wait for React to hydrate
     await page.waitForTimeout(500);
 
@@ -190,7 +188,6 @@ test.describe("Full Registration Flow with Dashboard Verification", () => {
   }) => {
     // Arrange
     const registerPage = new RegisterPage(page);
-    const dashboardPage = new DashboardPage(page);
     const email = RegisterPage.generateRandomEmail();
     const password = "TestPassword123!";
 
@@ -211,10 +208,10 @@ test.describe("Full Registration Flow with Dashboard Verification", () => {
     // Note: This test verifies registration success message only.
     // Full dashboard verification would require email confirmation to be disabled in Supabase
     // or implementing auto-confirm for E2E tests.
-    
-    // If email confirmation is disabled in Supabase test project, 
+
+    // If email confirmation is disabled in Supabase test project,
     // you could uncomment the following to test auto-login:
-    
+
     // await page.goto("/");
     // await expect(dashboardPage.topBar).toBeVisible();
     // await expect(dashboardPage.logoutButton).toBeVisible();

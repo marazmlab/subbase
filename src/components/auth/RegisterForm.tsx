@@ -55,7 +55,6 @@ const defaultInitialValues: RegisterFormValues = {
 export function RegisterForm({
   initialValues = defaultInitialValues,
   onValuesChange,
-  onSuccess,
 }: RegisterFormProps) {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
@@ -184,7 +183,12 @@ export function RegisterForm({
 
       <FormError message={submitError} />
 
-      <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="register-submit-button">
+      <Button
+        type="submit"
+        className="w-full"
+        disabled={isSubmitting}
+        data-testid="register-submit-button"
+      >
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" aria-hidden="true" />

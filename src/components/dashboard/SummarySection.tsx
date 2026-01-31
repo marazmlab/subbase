@@ -13,7 +13,11 @@ export function SummarySection({ summary, isLoading }: SummarySectionProps) {
   const headingId = useId();
 
   return (
-    <section aria-labelledby={headingId} className="space-y-3 sm:space-y-4" data-testid="summary-section">
+    <section
+      aria-labelledby={headingId}
+      className="space-y-3 sm:space-y-4"
+      data-testid="summary-section"
+    >
       <h2 id={headingId} className="text-lg font-semibold">
         Podsumowanie
       </h2>

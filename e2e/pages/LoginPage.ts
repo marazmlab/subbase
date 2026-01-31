@@ -6,12 +6,12 @@ import { type Page, type Locator } from "@playwright/test";
  */
 export class LoginPage {
   readonly page: Page;
-  
+
   // Elementy karty autentykacji
   readonly authCard: Locator;
   readonly loginTab: Locator;
   readonly registerTab: Locator;
-  
+
   // Elementy formularza logowania
   readonly loginForm: Locator;
   readonly emailInput: Locator;
@@ -20,12 +20,12 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Karta autentykacji i zakładki
     this.authCard = page.getByTestId("auth-card");
     this.loginTab = page.getByTestId("auth-tab-login");
     this.registerTab = page.getByTestId("auth-tab-register");
-    
+
     // Formularz logowania
     this.loginForm = page.getByTestId("login-form");
     this.emailInput = page.getByTestId("login-email-input");

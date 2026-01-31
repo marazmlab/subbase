@@ -6,13 +6,13 @@ import { type Page, type Locator } from "@playwright/test";
  */
 export class DashboardPage {
   readonly page: Page;
-  
+
   // Elementy TopBar
   readonly topBar: Locator;
   readonly logoutButton: Locator;
   readonly appLogo: Locator;
   readonly themeToggle: Locator;
-  
+
   // Elementy Dashboard
   readonly addSubscriptionButton: Locator;
   readonly subscriptionsList: Locator;
@@ -20,13 +20,13 @@ export class DashboardPage {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // TopBar
     this.topBar = page.getByTestId("dashboard-topbar");
     this.logoutButton = page.getByTestId("logout-button");
     this.appLogo = page.locator('a[href="/"]').filter({ hasText: "Subbase" });
     this.themeToggle = page.getByRole("button", { name: /toggle theme/i });
-    
+
     // Dashboard elements
     this.addSubscriptionButton = page.getByRole("button", {
       name: /add subscription/i,
@@ -112,4 +112,3 @@ export class DashboardPage {
     await this.page.waitForLoadState("networkidle");
   }
 }
-

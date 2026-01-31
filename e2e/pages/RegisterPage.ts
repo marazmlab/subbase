@@ -6,38 +6,38 @@ import { type Page, type Locator } from "@playwright/test";
  */
 export class RegisterPage {
   readonly page: Page;
-  
+
   // Elementy karty autentykacji
   readonly authCard: Locator;
   readonly loginTab: Locator;
   readonly registerTab: Locator;
-  
+
   // Elementy formularza rejestracji
   readonly registerForm: Locator;
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly confirmPasswordInput: Locator;
   readonly submitButton: Locator;
-  
+
   // Elementy widoku sukcesu
   readonly successMessage: Locator;
   readonly goToLoginButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Karta autentykacji i zakładki
     this.authCard = page.getByTestId("auth-card");
     this.loginTab = page.getByTestId("auth-tab-login");
     this.registerTab = page.getByTestId("auth-tab-register");
-    
+
     // Formularz rejestracji
     this.registerForm = page.getByTestId("register-form");
     this.emailInput = page.getByTestId("register-email-input");
     this.passwordInput = page.getByTestId("register-password-input");
     this.confirmPasswordInput = page.getByTestId("register-confirm-password-input");
     this.submitButton = page.getByTestId("register-submit-button");
-    
+
     // Widok sukcesu
     this.successMessage = page.getByTestId("register-success-message");
     this.goToLoginButton = page.getByTestId("register-success-go-to-login-button");
@@ -48,17 +48,17 @@ export class RegisterPage {
    */
   async goto() {
     await this.page.goto("/login", { waitUntil: "networkidle" });
-    
+
     // Wait for auth card to be fully loaded
     await this.authCard.waitFor({ state: "visible" });
-    
+
     // Wait for tabs to be interactive (React hydration)
     await this.registerTab.waitFor({ state: "visible" });
     await this.page.waitForLoadState("domcontentloaded");
-    
+
     // Small delay to ensure React is fully hydrated
     await this.page.waitForTimeout(300);
-    
+
     await this.switchToRegisterTab();
   }
 
@@ -69,7 +69,7 @@ export class RegisterPage {
     // Ensure tab is clickable and click it
     await this.registerTab.waitFor({ state: "visible" });
     await this.registerTab.click({ force: false });
-    
+
     // Wait for the form to become visible with longer timeout
     await this.registerForm.waitFor({ state: "visible", timeout: 10000 });
   }
@@ -147,7 +147,7 @@ export class RegisterPage {
    * @param prefix - Prefix emaila (domyślnie: 'test')
    * @returns Losowy email z większą entropią
    */
-  static generateRandomEmail(prefix: string = "test"): string {
+  static generateRandomEmail(prefix = "test"): string {
     const timestamp = Date.now();
     const random = Math.floor(Math.random() * 1000000); // Zwiększona losowość
     const uuid = Math.random().toString(36).substring(2, 8); // Dodatkowa losowość
@@ -182,11 +182,11 @@ export class RegisterPage {
   async getFieldError(fieldId: string): Promise<string | null> {
     const field = this.page.getByTestId(fieldId);
     const errorId = await field.getAttribute("aria-describedby");
-    
+
     if (!errorId) {
       return null;
     }
-    
+
     const errorElement = this.page.locator(`#${errorId}`);
     return await errorElement.textContent();
   }

@@ -8,11 +8,11 @@ test.describe("Dashboard", () => {
     // Clear cookies and storage to ensure test isolation
     await page.context().clearCookies();
     await page.context().clearPermissions();
-    
+
     // Login first using E2E credentials
     await page.goto("/login");
-    await page.getByTestId("login-email-input").fill(process.env.E2E_USERNAME!);
-    await page.getByTestId("login-password-input").fill(process.env.E2E_PASSWORD!);
+    await page.getByTestId("login-email-input").fill(process.env.E2E_USERNAME || "");
+    await page.getByTestId("login-password-input").fill(process.env.E2E_PASSWORD || "");
     await page.getByTestId("login-submit-button").click();
 
     // Wait for navigation to dashboard
