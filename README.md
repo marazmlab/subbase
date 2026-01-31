@@ -45,6 +45,8 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 
 ## Getting Started Locally
 
+**New to the project? Check out the [Quick Start Guide](./QUICKSTART.md) for a 5-minute setup!**
+
 ### Prerequisites
 
 - **Node.js** v22.14.0 (specified in `.nvmrc`)
@@ -66,24 +68,75 @@ cd subbase
 npm install
 ```
 
-3. **Set up environment variables:**
+3. **Set up Supabase:**
 
-Create a `.env` file in the root directory with your configuration:
+You have two options:
 
-```env
-# Add your Supabase and OpenRouter credentials here
-PUBLIC_SUPABASE_URL=your_supabase_url
-PUBLIC_SUPABASE_KEY=your_supabase_anon_key
-OPENROUTER_API_KEY=your_openrouter_api_key
+**Option A: Local Supabase (Recommended for development)**
+
+```bash
+# Start local Supabase instance
+npx supabase start
+
+# This will output your local credentials
+# Copy the Project URL and anon key to your .env file
 ```
 
-4. **Run the development server:**
+**Option B: Remote Supabase (supabase.com)**
+
+- Create a free account at [supabase.com](https://supabase.com)
+- Create a new project
+- Go to Settings → API to get your credentials
+
+4. **Set up environment variables:**
+
+Copy the example file and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your Supabase credentials:
+
+```env
+# For local Supabase (from npx supabase start)
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_KEY=your_local_anon_key
+PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+PUBLIC_SUPABASE_KEY=your_local_anon_key
+
+# For remote Supabase (from supabase.com dashboard)
+# SUPABASE_URL=https://your-project.supabase.co
+# SUPABASE_KEY=your_anon_key
+# PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+# PUBLIC_SUPABASE_KEY=your_anon_key
+
+# OpenRouter API (optional - for AI insights)
+OPENROUTER_API_KEY=your_openrouter_api_key
+OPENROUTER_MODEL=openai/gpt-4o-mini
+```
+
+**Note:** AI insights require an OpenRouter API key. Get one at [openrouter.ai](https://openrouter.ai). The app works without it, but AI features will be disabled.
+
+5. **Run database migrations:**
+
+If using local Supabase:
+```bash
+npx supabase db reset
+```
+
+If using remote Supabase:
+```bash
+npx supabase db push
+```
+
+6. **Run the development server:**
 
 ```bash
 npm run dev
 ```
 
-5. **Open your browser:**
+7. **Open your browser:**
 
 Navigate to `http://localhost:4321` to see the application.
 
