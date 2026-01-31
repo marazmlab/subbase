@@ -4,6 +4,12 @@ import { DashboardPage } from "../pages/DashboardPage";
 import { LoginPage } from "../pages/LoginPage";
 
 test.describe("User Registration", () => {
+  test.beforeEach(async ({ page }) => {
+    // Clear cookies and storage to ensure test isolation
+    await page.context().clearCookies();
+    await page.context().clearPermissions();
+  });
+
   test("should successfully register a new user and redirect to dashboard", async ({ page }) => {
     // Arrange
     const registerPage = new RegisterPage(page);
@@ -41,8 +47,11 @@ test.describe("User Registration", () => {
 
     // Act
     // 1. Otwórz stronę /login (domyślnie zakładka login)
-    await page.goto("/login");
+    await page.goto("/login", { waitUntil: "networkidle" });
     await loginPage.authCard.waitFor({ state: "visible" });
+    
+    // Wait for React to hydrate
+    await page.waitForTimeout(500);
 
     // 2. Przełącz na zakładkę "Register"
     await registerPage.switchToRegisterTab();
@@ -170,6 +179,12 @@ test.describe("User Registration", () => {
 });
 
 test.describe("Full Registration Flow with Dashboard Verification", () => {
+  test.beforeEach(async ({ page }) => {
+    // Clear cookies and storage to ensure test isolation
+    await page.context().clearCookies();
+    await page.context().clearPermissions();
+  });
+
   test("should complete full registration flow and verify user is authenticated", async ({
     page,
   }) => {
@@ -181,7 +196,8 @@ test.describe("Full Registration Flow with Dashboard Verification", () => {
 
     // Act
     // 1. Otwórz stronę /login
-    await page.goto("/login");
+    await page.goto("/login", { waitUntil: "networkidle" });
+    await page.waitForTimeout(500); // Wait for React hydration
 
     // 2. Przełącz na zakładkę "Register"
     await registerPage.switchToRegisterTab();
@@ -192,22 +208,15 @@ test.describe("Full Registration Flow with Dashboard Verification", () => {
     // 4. Weryfikuj: Widok sukcesu
     await expect(registerPage.successMessage).toBeVisible();
 
-    // Uwaga: W rzeczywistości użytkownik musi potwierdzić email
-    // Ten test zakłada że dla testów E2E potwierdzenie email jest wyłączone
-    // lub że istnieje helper do automatycznego potwierdzania emaili
-
-    // 5. Po potwierdzeniu email i przekierowaniu na /
-    // (symulujemy to ręcznie dla potrzeb testu)
+    // Note: This test verifies registration success message only.
+    // Full dashboard verification would require email confirmation to be disabled in Supabase
+    // or implementing auto-confirm for E2E tests.
+    
+    // If email confirmation is disabled in Supabase test project, 
+    // you could uncomment the following to test auto-login:
+    
     // await page.goto("/");
-
-    // 6. Weryfikuj: TopBar jest widoczny
     // await expect(dashboardPage.topBar).toBeVisible();
-
-    // 7. Weryfikuj: Przycisk Logout jest widoczny
     // await expect(dashboardPage.logoutButton).toBeVisible();
-
-    // 8. Weryfikuj: Użytkownik jest zalogowany
-    // const isAuthenticated = await dashboardPage.isUserAuthenticated();
-    // expect(isAuthenticated).toBe(true);
   });
 });

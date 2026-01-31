@@ -47,8 +47,18 @@ export class RegisterPage {
    * Przechodzi do strony rejestracji (login page z zakładką register)
    */
   async goto() {
-    await this.page.goto("/login");
+    await this.page.goto("/login", { waitUntil: "networkidle" });
+    
+    // Wait for auth card to be fully loaded
     await this.authCard.waitFor({ state: "visible" });
+    
+    // Wait for tabs to be interactive (React hydration)
+    await this.registerTab.waitFor({ state: "visible" });
+    await this.page.waitForLoadState("domcontentloaded");
+    
+    // Small delay to ensure React is fully hydrated
+    await this.page.waitForTimeout(300);
+    
     await this.switchToRegisterTab();
   }
 
@@ -56,8 +66,12 @@ export class RegisterPage {
    * Przełącza na zakładkę rejestracji
    */
   async switchToRegisterTab() {
-    await this.registerTab.click();
-    await this.registerForm.waitFor({ state: "visible" });
+    // Ensure tab is clickable and click it
+    await this.registerTab.waitFor({ state: "visible" });
+    await this.registerTab.click({ force: false });
+    
+    // Wait for the form to become visible with longer timeout
+    await this.registerForm.waitFor({ state: "visible", timeout: 10000 });
   }
 
   /**
@@ -65,6 +79,7 @@ export class RegisterPage {
    */
   async switchToLoginTab() {
     await this.loginTab.click();
+    await this.page.waitForTimeout(500); // Small delay for tab animation
   }
 
   /**
@@ -130,12 +145,13 @@ export class RegisterPage {
   /**
    * Generuje losowy email dla testów
    * @param prefix - Prefix emaila (domyślnie: 'test')
-   * @returns Losowy email
+   * @returns Losowy email z większą entropią
    */
   static generateRandomEmail(prefix: string = "test"): string {
     const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 10000);
-    return `${prefix}-${timestamp}-${random}@example.com`;
+    const random = Math.floor(Math.random() * 1000000); // Zwiększona losowość
+    const uuid = Math.random().toString(36).substring(2, 8); // Dodatkowa losowość
+    return `${prefix}-${timestamp}-${random}-${uuid}@example.com`;
   }
 
   /**

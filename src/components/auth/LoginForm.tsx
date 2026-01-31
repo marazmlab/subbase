@@ -82,7 +82,7 @@ export function LoginForm({
   });
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" data-test-id="login-form">
+    <form onSubmit={handleSubmit} className="space-y-4" data-testid="login-form">
       <FormField
         id="login-email"
         label="Email"
@@ -112,7 +112,7 @@ export function LoginForm({
 
       <FormError message={submitError} />
 
-      <Button type="submit" className="w-full" disabled={isSubmitting} data-test-id="login-submit-button">
+      <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="login-submit-button">
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" aria-hidden="true" />

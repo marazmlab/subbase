@@ -61,7 +61,7 @@ export function SubscriptionList({
   return (
     <>
       {/* Desktop table */}
-      <div className="hidden md:block">
+      <div className="hidden md:block" data-testid="subscriptions-list">
         <Table>
           <TableHeader>
             <TableRow>
@@ -87,7 +87,7 @@ export function SubscriptionList({
       </div>
 
       {/* Mobile cards */}
-      <div className="space-y-3 md:hidden">
+      <div className="space-y-3 md:hidden" data-testid="subscriptions-list">
         {subscriptions.map((subscription) => (
           <SubscriptionItemCard
             key={subscription.id}

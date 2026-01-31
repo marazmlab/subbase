@@ -52,7 +52,7 @@ export function AuthCard({ initialTab = "login" }: AuthCardProps) {
   return (
     <ThemeProvider>
       <AuthTopBar />
-      <Card className="w-full max-w-md" data-test-id="auth-card">
+      <Card className="w-full max-w-md" data-testid="auth-card">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Subbase</CardTitle>
           <CardDescription>

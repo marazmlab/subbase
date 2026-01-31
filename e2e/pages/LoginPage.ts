@@ -46,7 +46,7 @@ export class LoginPage {
    */
   async switchToLoginTab() {
     await this.loginTab.click();
-    await this.loginForm.waitFor({ state: "visible" });
+    await this.loginForm.waitFor({ state: "visible", timeout: 5000 });
   }
 
   /**
@@ -54,6 +54,7 @@ export class LoginPage {
    */
   async switchToRegisterTab() {
     await this.registerTab.click();
+    await this.page.waitForTimeout(500); // Small delay for tab animation
   }
 
   /**

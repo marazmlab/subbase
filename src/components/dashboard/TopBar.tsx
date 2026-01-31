@@ -24,7 +24,7 @@ export function TopBar() {
     <header
       className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       aria-label="Nagłówek aplikacji"
-      data-test-id="dashboard-topbar"
+      data-testid="dashboard-topbar"
     >
       <div className="mx-auto flex h-14 max-w-[var(--container-max-width)] items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="/" className="flex items-center space-x-2">
@@ -39,7 +39,7 @@ export function TopBar() {
             onClick={handleLogout}
             disabled={isLoggingOut}
             aria-label="Wyloguj się"
-            data-test-id="logout-button"
+            data-testid="logout-button"
           >
             <LogOut className="size-4" />
             <span className="hidden sm:inline">

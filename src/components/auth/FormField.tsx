@@ -68,7 +68,7 @@ export function FormField({
         aria-describedby={error ? errorId : undefined}
         onChange={(e) => onChange(e.target.value)}
         onBlur={onBlur}
-        data-test-id={testId}
+        data-testid={testId}
       />
       {error && (
         <p

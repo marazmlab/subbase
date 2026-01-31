@@ -98,7 +98,7 @@ export function RegisterForm({
   // Widok sukcesu z informacją o weryfikacji emaila
   if (registrationSuccess) {
     return (
-      <div className="space-y-4 text-center" data-test-id="register-success-message">
+      <div className="space-y-4 text-center" data-testid="register-success-message">
         <div className="flex justify-center">
           <div className="rounded-full bg-green-100 p-3 dark:bg-green-900/20">
             <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
@@ -131,7 +131,7 @@ export function RegisterForm({
           onClick={() => {
             window.location.href = "/login";
           }}
-          data-test-id="register-success-go-to-login-button"
+          data-testid="register-success-go-to-login-button"
         >
           Przejdź do logowania
         </Button>
@@ -141,7 +141,7 @@ export function RegisterForm({
 
   // Formularz rejestracji
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" data-test-id="register-form">
+    <form onSubmit={handleSubmit} className="space-y-4" data-testid="register-form">
       <FormField
         id="register-email"
         label="Email"
@@ -184,7 +184,7 @@ export function RegisterForm({
 
       <FormError message={submitError} />
 
-      <Button type="submit" className="w-full" disabled={isSubmitting} data-test-id="register-submit-button">
+      <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="register-submit-button">
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" aria-hidden="true" />

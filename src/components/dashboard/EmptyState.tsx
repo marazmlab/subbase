@@ -8,7 +8,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ onAddClick }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-8 text-center sm:py-12">
+    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-8 text-center sm:py-12" data-testid="empty-state">
       <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-muted">
         <FolderOpen className="size-6 text-muted-foreground" />
       </div>

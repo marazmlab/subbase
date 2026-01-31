@@ -26,8 +26,8 @@ export function AuthTabs({ activeTab, onTabChange, loginContent, registerContent
       className="w-full"
     >
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="login" data-test-id="auth-tab-login">Logowanie</TabsTrigger>
-        <TabsTrigger value="register" data-test-id="auth-tab-register">Rejestracja</TabsTrigger>
+        <TabsTrigger value="login" data-testid="auth-tab-login">Logowanie</TabsTrigger>
+        <TabsTrigger value="register" data-testid="auth-tab-register">Rejestracja</TabsTrigger>
       </TabsList>
 
       <TabsContent value="login" className="mt-4">

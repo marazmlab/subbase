@@ -6,8 +6,15 @@ test.describe("Login Flow", () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
+    // Clear cookies and storage to ensure test isolation
+    await page.context().clearCookies();
+    await page.context().clearPermissions();
+    
     loginPage = new LoginPage(page);
     await loginPage.goto();
+    
+    // Wait for form to be fully loaded and ready
+    await loginPage.authCard.waitFor({ state: "visible" });
   });
 
   test("should display login form", async () => {
@@ -24,10 +31,14 @@ test.describe("Login Flow", () => {
   });
 
   test("should show validation errors for empty fields", async () => {
+    // Ensure fields are empty
+    await loginPage.emailInput.clear();
+    await loginPage.passwordInput.clear();
+    
     await loginPage.submitButton.click();
 
     // Wait for validation errors to appear
-    await expect(loginPage.page.getByText(/wymagane|required/i)).toBeVisible();
+    await expect(loginPage.page.getByText(/wymagane/i).first()).toBeVisible();
   });
 
   test("should show error for invalid credentials", async ({ page }) => {
@@ -49,11 +60,9 @@ test.describe("Login Flow", () => {
   });
 
   test("should successfully login with valid credentials", async ({ page }) => {
-    // Uwaga: Ten test wymaga istniejącego użytkownika w bazie danych
-    // Możesz użyć fixture do stworzenia użytkownika testowego
-    
-    const testEmail = "test@example.com";
-    const testPassword = "password123";
+    // Using E2E test user from .env.test
+    const testEmail = process.env.E2E_USERNAME!;
+    const testPassword = process.env.E2E_PASSWORD!;
     
     await loginPage.login(testEmail, testPassword);
     

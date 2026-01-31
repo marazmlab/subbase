@@ -5,16 +5,21 @@ test.describe("Dashboard", () => {
   let dashboardPage: DashboardPage;
 
   test.beforeEach(async ({ page }) => {
-    // Login first
+    // Clear cookies and storage to ensure test isolation
+    await page.context().clearCookies();
+    await page.context().clearPermissions();
+    
+    // Login first using E2E credentials
     await page.goto("/login");
-    await page.getByLabel(/email/i).fill("test@example.com");
-    await page.getByLabel(/password/i).fill("Test123!");
-    await page.getByRole("button", { name: /sign in/i }).click();
+    await page.getByTestId("login-email-input").fill(process.env.E2E_USERNAME!);
+    await page.getByTestId("login-password-input").fill(process.env.E2E_PASSWORD!);
+    await page.getByTestId("login-submit-button").click();
 
     // Wait for navigation to dashboard
     await page.waitForURL("/");
 
     dashboardPage = new DashboardPage(page);
+    await dashboardPage.waitForDashboardLoad();
   });
 
   test("should display dashboard with summary section", async () => {

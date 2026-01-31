@@ -18,10 +18,13 @@ export const test = base.extend<AuthFixtures>({
    */
 
   authenticatedPage: async ({ page }, use) => {
-    // Login before each test
+    // Login before each test using E2E credentials from .env.test
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    await loginPage.login("test@example.com", "Test123!");
+    await loginPage.login(
+      process.env.E2E_USERNAME!,
+      process.env.E2E_PASSWORD!
+    );
 
     // Wait for successful login
     await page.waitForURL("/");
