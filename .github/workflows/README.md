@@ -48,11 +48,7 @@ The workflow previously used an `integration` environment for E2E tests. This is
 
 1. Go to your repository on GitHub
 2. Navigate to **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret** for repository-level secrets
-4. For environment secrets:
-   - Go to **Settings** → **Environments**
-   - Create or select the `integration` environment
-   - Add environment secrets
+3. Click **New repository secret** to add `CODECOV_TOKEN` (optional)
 
 ### Action Versions Used
 
@@ -67,14 +63,6 @@ All actions use the latest major versions as of January 2026:
 ### Coverage Reports
 
 - **Unit Tests**: Coverage is collected via Vitest with `@vitest/coverage-v8` and uploaded to Codecov
-- **E2E Tests**: Playwright HTML reports are uploaded as GitHub artifacts (available for 7 days)
-
-### Playwright Configuration
-
-The workflow:
-- Installs only Chromium browser (as specified in `playwright.config.ts`)
-- Uses `--with-deps` to install system dependencies
-- Runs tests with `npm run test:e2e` which starts the dev server automatically
 
 ### Node.js Version
 
@@ -83,9 +71,9 @@ The workflow uses the Node.js version specified in `.nvmrc` file (currently 22.1
 ### Troubleshooting
 
 #### Tests failing in CI but passing locally
-- Ensure all environment variables are properly set in the `integration` environment
-- Check that the integration environment matches your local test setup
-- Review Playwright report artifacts for detailed error information
+- Ensure all dependencies are properly installed
+- Check Node.js version matches `.nvmrc`
+- Verify environment configuration
 
 #### Coverage upload failing
 - Verify `CODECOV_TOKEN` is set correctly
@@ -93,4 +81,4 @@ The workflow uses the Node.js version specified in `.nvmrc` file (currently 22.1
 
 #### Status comment not appearing
 - Ensure the workflow has `pull-requests: write` permission
-- Check that all three jobs (lint, unit-test, e2e-test) completed successfully
+- Check that both jobs (lint, unit-test) completed successfully
