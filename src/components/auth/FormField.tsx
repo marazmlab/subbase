@@ -27,6 +27,8 @@ export interface FormFieldProps {
   onChange: (value: string) => void;
   /** Callback opuszczenia pola */
   onBlur?: () => void;
+  /** Test ID dla e2e testów */
+  testId?: string;
 }
 
 /**
@@ -44,6 +46,7 @@ export function FormField({
   placeholder,
   onChange,
   onBlur,
+  testId,
 }: FormFieldProps) {
   const generatedId = useId();
   const id = externalId ?? generatedId;
@@ -65,6 +68,7 @@ export function FormField({
         aria-describedby={error ? errorId : undefined}
         onChange={(e) => onChange(e.target.value)}
         onBlur={onBlur}
+        data-test-id={testId}
       />
       {error && (
         <p

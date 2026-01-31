@@ -82,7 +82,7 @@ export function LoginForm({
   });
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" data-test-id="login-form">
       <FormField
         id="login-email"
         label="Email"
@@ -94,6 +94,7 @@ export function LoginForm({
         placeholder="jan@example.com"
         onChange={(value) => handleChange("email", value)}
         onBlur={() => handleBlur("email")}
+        testId="login-email-input"
       />
 
       <FormField
@@ -106,11 +107,12 @@ export function LoginForm({
         autoComplete="current-password"
         onChange={(value) => handleChange("password", value)}
         onBlur={() => handleBlur("password")}
+        testId="login-password-input"
       />
 
       <FormError message={submitError} />
 
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
+      <Button type="submit" className="w-full" disabled={isSubmitting} data-test-id="login-submit-button">
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" aria-hidden="true" />
