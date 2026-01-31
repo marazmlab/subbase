@@ -8,8 +8,7 @@ This workflow runs automated checks on every pull request to `master` or `develo
 
 ```
 lint
-  ├─> unit-test (parallel)
-  └─> e2e-test (parallel)
+  └─> unit-test
         └─> status-comment (after all succeed)
 ```
 
@@ -17,42 +16,33 @@ lint
 
 #### 1. **Lint** (`lint`)
 - Runs ESLint to check code quality
-- Must pass before parallel tests run
+- Must pass before unit tests run
 
 #### 2. **Unit Tests** (`unit-test`)
 - Runs Vitest unit tests with coverage
 - Uploads coverage reports to Codecov
-- Runs in parallel with E2E tests
 
-#### 3. **E2E Tests** (`e2e-test`)
-- Runs Playwright E2E tests on Chromium browser
-- Uses `integration` environment
-- Uploads Playwright HTML report as artifact
-- Runs in parallel with unit tests
-
-#### 4. **Status Comment** (`status-comment`)
+#### 3. **Status Comment** (`status-comment`)
 - Posts a success comment to the PR
 - Only runs if all previous jobs succeed
 - Updates the same comment on subsequent runs (sticky comment)
+
+### Note on E2E Tests
+
+E2E tests are maintained in the project but not run in CI for faster feedback and reduced complexity. They can be run locally with `npm run test:e2e`.
 
 ### Required GitHub Secrets
 
 Configure these secrets in your GitHub repository settings:
 
-#### Environment: `integration`
-Required for E2E tests:
-
-- `SUPABASE_URL` - Supabase project URL for integration testing
-- `SUPABASE_KEY` - Supabase service role key for integration testing
-- `PUBLIC_SUPABASE_URL` - Public Supabase URL for client-side
-- `PUBLIC_SUPABASE_KEY` - Public Supabase anon key for client-side
-- `OPENROUTER_API_KEY` - OpenRouter API key for AI features
-- `OPENROUTER_MODEL` - OpenRouter model (e.g., `openai/gpt-4o-mini`)
-
 #### Repository Secrets
 Optional for coverage reporting:
 
 - `CODECOV_TOKEN` - Token for uploading coverage to Codecov (optional, set `fail_ci_if_error: false`)
+
+### Note on Environment Secrets
+
+The workflow previously used an `integration` environment for E2E tests. This is no longer required as E2E tests are run locally only.
 
 ### Setting Up Secrets
 
