@@ -40,6 +40,6 @@ API Mocking (Post-MVP):
 CI/CD and Hosting:
 
 - Github Actions
-- Digital Ocean
+- Cloudflare Pages (Astro deployment with @astrojs/cloudflare adapter)
 
 </tech-stack>
