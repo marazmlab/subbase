@@ -40,6 +40,12 @@ API Mocking (Post-MVP):
 CI/CD and Hosting:
 
 - Github Actions
+  - Automated pipeline: Lint → Unit Tests → Build → Deploy
+  - Codecov integration for test coverage
+  - Production environment secrets management
 - Cloudflare Pages (Astro deployment with @astrojs/cloudflare adapter)
+  - Runtime: Cloudflare Workers (serverless)
+  - Environment variables via astro:env
+  - Production URL: https://subbase.pages.dev
 
 </tech-stack>

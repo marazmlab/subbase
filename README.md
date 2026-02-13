@@ -41,7 +41,8 @@ Over time, users accumulate multiple subscriptions (streaming services, SaaS too
 - **[Playwright](https://playwright.dev/)** - End-to-end testing framework for browser automation
 
 ### CI/CD & Hosting
-- **GitHub Actions** - Continuous integration with automated testing
+- **GitHub Actions** - Continuous integration and deployment pipeline
+- **Cloudflare Pages** - Production hosting with serverless edge deployment
 
 ## Getting Started Locally
 
@@ -285,15 +286,30 @@ subbase/
 - As a user, I can see how much I spend monthly and yearly on all subscriptions
 - As a user, I can trigger AI insights to better understand my subscription spending
 
-## CI/CD
+## Deployment
 
-This project uses GitHub Actions for continuous integration. On every pull request:
+### Production
 
-- ✅ Code linting with ESLint
-- ✅ Unit tests with coverage reporting
-- ✅ Automated status comments
+The application is deployed on **Cloudflare Pages** with a fully automated CI/CD pipeline:
 
-See [.github/workflows/README.md](./.github/workflows/README.md) for more details.
+**Production URL:** https://subbase.pages.dev
+
+### CI/CD Pipeline
+
+Every push to `master` triggers an automated deployment workflow:
+
+1. **Code Quality** - ESLint linting
+2. **Testing** - Unit tests with coverage reporting (Codecov)
+3. **Build** - Astro build with Cloudflare adapter
+4. **Deploy** - Automated deployment to Cloudflare Pages
+
+The pipeline ensures that only tested and validated code reaches production.
+
+### Environment Variables
+
+Production environment variables are managed through GitHub Secrets and injected during the build process. The application uses `astro:env` for type-safe environment variable handling compatible with Cloudflare Workers Runtime.
+
+See [.github/workflows/README.md](./.github/workflows/README.md) for more details about the CI/CD configuration.
 
 ## Contributing
 
