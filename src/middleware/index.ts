@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { defineMiddleware } from "astro:middleware";
+import { SUPABASE_URL, SUPABASE_KEY } from "astro:env/server";
 
 import type { Database } from "@/db/database.types";
 import type { TypedSupabaseClient } from "@/db/supabase.client";
@@ -25,8 +26,8 @@ const PUBLIC_PATHS = ["/login", "/signup"];
  *   - Authenticated users accessing /login → redirect to / (dashboard)
  */
 export const onRequest = defineMiddleware(async (context, next) => {
-  const supabaseUrl = import.meta.env.SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
+  const supabaseUrl = SUPABASE_URL;
+  const supabaseAnonKey = SUPABASE_KEY;
 
   // Check if this is an API route
   const isApiRoute = context.url.pathname.startsWith("/api/");

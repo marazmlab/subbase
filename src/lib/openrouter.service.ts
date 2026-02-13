@@ -1,3 +1,4 @@
+import { OPENROUTER_API_KEY, OPENROUTER_MODEL } from "astro:env/server";
 import { aiServiceUnavailableError, internalError } from "@/lib/errors";
 import type { SubscriptionDTO, AIInsightDTO } from "@/types";
 import { SYSTEM_PROMPT, buildUserPrompt } from "@/lib/ai/prompts/subscription-insights.prompt";
@@ -23,8 +24,8 @@ interface OpenRouterConfig {
  * @throws ApiError with INTERNAL_ERROR if API key is not configured
  */
 function getConfig(): OpenRouterConfig {
-  const apiKey = import.meta.env.OPENROUTER_API_KEY;
-  const model = import.meta.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
+  const apiKey = OPENROUTER_API_KEY;
+  const model = OPENROUTER_MODEL;
 
   if (!apiKey) {
     throw internalError("OpenRouter API key not configured");
